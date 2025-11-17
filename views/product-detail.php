@@ -106,10 +106,13 @@ if ($product) {
     <link rel="stylesheet" href="<?php echo BASE_URL; ?>/assets/css/styles.css">
 
     <?php
-    // 🎯 Performance / Preload Tags (DNS prefetch, preconnect, preload CSS)
+    // 🔥 Google Tag Manager (HEAD)
+    echo $pluginManager->renderHook('head_tracking');
+
+    // 🔥 Performance / Preload
     echo $pluginManager->renderHook('head_preload');
 
-    // 🎯 Erweiterte Meta-Tags (OG, Twitter, Robots…), ähnlich wie frühere updateMetadata()
+    // 🔥 Meta Tags (OG, Twitter, Canonical)
     if ($product) {
         echo $pluginManager->renderHook('head_meta', [
             'title'       => $pageTitle,
@@ -125,19 +128,20 @@ if ($product) {
         ]);
     }
 
-    // 🎯 Strukturierte Daten (Organization, Website, Breadcrumb, Product)
+    // 🔥 JSON-LD Structured Data
     echo $pluginManager->renderHook('head_structured_data', [
         'breadcrumbs' => $breadcrumbs,
         'product'     => $product ?: null,
     ]);
 
-    // ✨ Plugin-CSS (ReviewStars, BestsellerBadge, ShoppingCart, etc.)
+    // 🔥 Plugin CSS
     echo $pluginManager->renderHook('head_css');
-    ?>
+?>
+
 </head>
 <body>
     <?php
-    // JS der Plugins (z. B. ShoppingCart) direkt nach <body>
+    echo $pluginManager->renderHook('body_noscript_tracking');
     echo $pluginManager->renderHook('after_body_open');
     ?>
 
@@ -283,7 +287,7 @@ if ($product) {
     </footer>
 
     <?php
-    // Cart-Sidebar / Checkout-Modal etc.
+    echo $pluginManager->renderHook('tracking_js');
     echo $pluginManager->renderHook('before_body_close');
     ?>
 </body>

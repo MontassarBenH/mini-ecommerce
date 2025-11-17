@@ -28,6 +28,9 @@ $breadcrumbs = [
     <link rel="stylesheet" href="<?php echo BASE_URL; ?>/assets/css/styles.css">
 
     <?php
+    // 🔥 Google Tag Manager (GTM)
+    echo $pluginManager->renderHook('head_tracking');
+
     // 🔥 Performance / Preload (DNS prefetch, preconnect, CSS preload)
     echo $pluginManager->renderHook('head_preload');
 
@@ -36,18 +39,17 @@ $breadcrumbs = [
         'title'       => $pageTitle,
         'description' => $metaDescription,
         'type'        => 'website',
-        // 'image'    => BASE_URL . '/assets/images/og-default.jpg' // optional, sonst nimmt Plugin den Default
     ]);
 
     // 🧩 Strukturierte Daten: Organization + Website + Breadcrumbs
     echo $pluginManager->renderHook('head_structured_data', [
         'breadcrumbs' => $breadcrumbs,
-        // keine 'product' / 'products' hier, ist nur die Startseite
     ]);
 
     // 🎨 CSS von Plugins (Cart, Reviews, Badges, etc.)
     echo $pluginManager->renderHook('head_css');
-    ?>
+?>
+
 
     <style>
         .hero {
@@ -110,7 +112,7 @@ $breadcrumbs = [
 </head>
 <body>
     <?php
-    // 👉 Hier kommen JS-Dateien der Plugins rein (z. B. cart.js)
+    echo $pluginManager->renderHook('body_noscript_tracking');
     echo $pluginManager->renderHook('after_body_open');
     ?>
 
@@ -273,7 +275,7 @@ $breadcrumbs = [
     </script>
 
     <?php
-    // Cart-Sidebar + Checkout-Modal etc. (ShoppingCart-Plugin)
+    echo $pluginManager->renderHook('tracking_js');
     echo $pluginManager->renderHook('before_body_close');
     ?>
 </body>

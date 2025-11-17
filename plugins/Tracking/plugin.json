@@ -1,0 +1,13 @@
+{
+  "name": "Tracking & GTM",
+  "version": "1.0.0",
+  "description": "Google Tag Manager Integration & event tracking for SEA and analytics.",
+  "class": "Tracking",
+  "directory": "Tracking",
+  "enabled": true,
+  "author": "Ben",
+  "features": [
+    "gtm",
+    "event_tracking"
+  ]
+}
