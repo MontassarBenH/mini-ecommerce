@@ -36,7 +36,7 @@
 /* Half-Star via Overlay */
 .star-half {
     position: relative;
-    color: #dddddd; /* Grundfarbe grau */
+    color: #dddddd; 
 }
 
 .star-half::before {
@@ -85,14 +85,14 @@
     margin: 0;
     font-size: 1.5rem;
     line-height: 1;
-    color: #dddddd; /* leere Sterne */
+    color: #dddddd; 
     cursor: pointer;
     transition: color 0.15s ease, transform 0.1s ease;
 }
 
 .rating-star.is-filled,
 .rating-star.is-hovered {
-    color: #f5a623; /* goldene Sterne */
+    color: #f5a623; 
 }
 
 .rating-star:focus-visible {
@@ -192,7 +192,7 @@
     display: inline-block;
 }
 
-/* Title (optional) */
+/* Title  */
 .review-title {
     font-size: 1rem;
     margin: 0.5rem 0 0.25rem;

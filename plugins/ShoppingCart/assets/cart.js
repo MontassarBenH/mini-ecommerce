@@ -1,7 +1,5 @@
-// plugins/ShoppingCart/assets/cart.js
 
 document.addEventListener('DOMContentLoaded', function () {
-    // Adjust this if your BASE_URL changes
     const CART_API_URL = window.location.origin + '/mini-ecommerce/api/cart';
 
     const cartBtn        = document.getElementById('cart-btn');
@@ -36,7 +34,6 @@ document.addEventListener('DOMContentLoaded', function () {
         if (!cartSidebar || !cartOverlay) return;
         cartOverlay.classList.remove('active');
         cartSidebar.classList.remove('active');
-        // kleines Timeout für Animation
         setTimeout(() => {
             cartOverlay.style.display = 'none';
         }, 250);
@@ -216,7 +213,6 @@ document.addEventListener('DOMContentLoaded', function () {
 
     function openCheckout() {
         if (!checkoutModal) return;
-        // Items aus aktuellem Cart in Summary übernehmen
         if (cartItemsBox && checkoutItems) {
             checkoutItems.innerHTML = cartItemsBox.innerHTML;
         }
@@ -326,7 +322,6 @@ document.addEventListener('DOMContentLoaded', function () {
         });
     }
 
-    // Delegation für + / - und Entfernen im Cart
     if (cartItemsBox) {
         cartItemsBox.addEventListener('click', function (e) {
             const itemEl = e.target.closest('.cart-item');

@@ -50,9 +50,9 @@ if ($segments[0] === 'api') {
             break;
 
         case 'cart':
-            // 🛒 Neue Route: /api/cart
+            // Neue Route: /api/cart
             $controller = new CartController();
-            echo $controller->handle();   // handle() gibt JSON zurück
+            echo $controller->handle();  
             break;
             
         default:

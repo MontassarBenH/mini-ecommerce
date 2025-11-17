@@ -86,7 +86,6 @@ class ProductController {
     }
     
     public function getProduct($identifier) {
-        // Check if identifier is numeric (ID) or string (slug)
         $isId = is_numeric($identifier);
         
         $sql = "SELECT p.*, 

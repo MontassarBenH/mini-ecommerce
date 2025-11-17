@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<phpunit
+    bootstrap="tests/bootstrap.php"
+    colors="true"
+    verbose="true"
+>
+    <testsuites>
+    <!-- Vollsuite: alle Tests -->
+    <testsuite name="MiniEcommerce Test Suite">
+        <directory>./tests</directory>
+    </testsuite>
+
+    <!-- Smoke Suite: nur die wichtigsten Kernpfade -->
+    <testsuite name="Smoke">
+        <file>tests/ApiProductsTest.php</file>
+        <file>tests/ApiCategoriesTest.php</file>
+        <file>tests/CartTest.php</file>
+        <file>tests/ReviewStarsTest.php</file>
+        <file>tests/SanityTest.php</file>
+    </testsuite>
+</testsuites>
+
+
+    <!-- Coverage-Konfiguration -->
+    <coverage processUncoveredFiles="true">
+        <include>
+            <directory suffix=".php">./controllers</directory>
+            <directory suffix=".php">./plugins</directory>
+        </include>
+        <exclude>
+            <directory suffix=".php">./vendor</directory>
+            <directory suffix=".php">./tests</directory>
+        </exclude>
+        <report>
+            <!-- HTML-Report -->
+            <html outputDirectory="build/coverage" lowUpperBound="50" highLowerBound="80"/>
+            <!-- Text-Zusammenfassung in der Konsole -->
+            <text outputFile="php://stdout"/>
+        </report>
+    </coverage>
+
+    <logging>
+      <testdoxHtml outputFile="build/test-report.html"/>
+    </logging>
+
+
+    <php>
+        <env name="APP_ENV" value="test"/>
+    </php>
+</phpunit>

@@ -1,4 +1,3 @@
-<!-- plugins/ShoppingCart/views/cart-modal.php -->
 <div id="cart-overlay" class="cart-overlay" style="display: none;"></div>
 
 <div id="cart-sidebar" class="cart-sidebar">

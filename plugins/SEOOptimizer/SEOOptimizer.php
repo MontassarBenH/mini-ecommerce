@@ -1,5 +1,4 @@
 <?php
-// plugins/SEOOptimizer/SEOOptimizer.php
 
 require_once __DIR__ . '/../../config.php';
 
@@ -69,12 +68,12 @@ class SEOOptimizer extends BasePlugin {
         // Website Schema
         $schemas[] = $this->getWebsiteSchema();
         
-        // Breadcrumb Schema (if breadcrumbs provided)
+        // Breadcrumb Schema
         if (isset($data['breadcrumbs'])) {
             $schemas[] = $this->getBreadcrumbSchema($data['breadcrumbs']);
         }
         
-        // Product Schema (if product data provided)
+        // Product Schema 
         if (isset($data['product'])) {
             $schemas[] = $this->getProductSchema($data['product']);
         }

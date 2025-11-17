@@ -1,5 +1,4 @@
 <?php
-// plugins/BestsellerBadge/BestsellerBadge.php
 
 class BestsellerBadge extends BasePlugin {
     
@@ -52,15 +51,14 @@ class BestsellerBadge extends BasePlugin {
     }
     
     /**
-     * Check if product is bestseller (demo)
+     * Check if product is bestseller 
      */
     private function isBestseller($productId) {
-        // Demo: Products 1, 2, 3 are bestsellers
         return in_array($productId, [1, 2, 3]);
     }
     
     /**
-     * Check if product is new (demo)
+     * Check if product is new 
      */
     private function isNew($product) {
         if (!isset($product['created_at'])) {
@@ -74,10 +72,9 @@ class BestsellerBadge extends BasePlugin {
     }
     
     /**
-     * Check if product is on sale (demo)
+     * Check if product is on sale 
      */
     private function isOnSale($product) {
-        // Demo: Products with ID 4, 5 are on sale
         return in_array($product['id'], [4, 5]);
     }
 }

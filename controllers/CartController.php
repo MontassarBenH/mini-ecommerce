@@ -1,5 +1,4 @@
 <?php
-// controllers/CartController.php
 
 class CartController
 {
@@ -8,12 +7,10 @@ class CartController
 
     public function __construct()
     {
-        // PluginManager ist bereits in config.php geladen
         $pluginManager = PluginManager::getInstance();
         $pluginData    = $pluginManager->getPlugin('ShoppingCart');
 
         if (!$pluginData || !isset($pluginData['instance']) || !$pluginData['instance'] instanceof ShoppingCart) {
-            // Kein Plugin geladen => später 500 zurückgeben
             $this->cart = null;
         } else {
             $this->cart = $pluginData['instance'];
@@ -32,7 +29,6 @@ class CartController
 
         $method = $_SERVER['REQUEST_METHOD'];
 
-        // Body-Daten holen (JSON oder Form-POST)
         $rawBody = file_get_contents('php://input');
         $data    = json_decode($rawBody, true);
         if (!is_array($data)) {
@@ -44,7 +40,6 @@ class CartController
         try {
             switch ($method) {
                 case 'GET':
-                    // 🔹 GET /api/cart  → gesamten Warenkorb laden
                     $items = $this->cart->getCartItems();
                     $total = $this->cart->getCartTotal();
                     $count = $this->cart->getCartCount();
@@ -57,7 +52,6 @@ class CartController
                     ]);
 
                 case 'POST':
-                    // Standard: add to cart
                     if ($action === null || $action === 'add') {
                         $productId = isset($data['product_id'])
                             ? (int)$data['product_id']
@@ -107,7 +101,6 @@ class CartController
                     }
 
                     if ($action === 'checkout') {
-                        // 🧾 Optional: Checkout verarbeiten (Cart->createOrder)
                         $customerData = [
                             'name'           => $data['name']          ?? '',
                             'email'          => $data['email']         ?? '',

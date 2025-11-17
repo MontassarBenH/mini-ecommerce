@@ -219,7 +219,7 @@ document.addEventListener('DOMContentLoaded', function () {
             });
         }
 
-        // Initialer Zustand (z.B. nach Fehlvalidierung)
+        // Initialer Zustand 
         setRating(hiddenInput.value);
 
         stars.forEach(function (star) {

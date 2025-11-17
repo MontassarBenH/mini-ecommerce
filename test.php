@@ -1,6 +1,4 @@
 <?php
-// test.php - Place this in your root folder (mini-ecommerce/)
-// Then access: http://localhost/mini-ecommerce/test.php
 
 // Enable all error reporting
 error_reporting(E_ALL);

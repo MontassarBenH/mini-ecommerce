@@ -1,0 +1,17 @@
+{
+    "name": "49171/mini-ecommerce",
+    "autoload": {
+        "psr-4": {
+            "49171\\MiniEcommerce\\": "src/"
+        }
+    },
+    "authors": [
+        {
+            "name": "MontassarBenH",
+            "email": "montassar.hmida@stud.hs-emden-leer.de"
+        }
+    ],
+    "require-dev": {
+        "phpunit/phpunit": "*"
+    }
+}

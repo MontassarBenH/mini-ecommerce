@@ -1,7 +1,6 @@
--- Cart Database Schema
--- Run this in phpMyAdmin or MySQL
 
--- Cart items table (for persistent carts)
+
+-- Cart items table
 CREATE TABLE IF NOT EXISTS cart_items (
     id INT AUTO_INCREMENT PRIMARY KEY,
     session_id VARCHAR(255) NOT NULL,
@@ -14,7 +13,7 @@ CREATE TABLE IF NOT EXISTS cart_items (
     UNIQUE KEY unique_cart_item (session_id, product_id)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
--- Orders table (for completed purchases)
+-- Orders table 
 CREATE TABLE IF NOT EXISTS orders (
     id INT AUTO_INCREMENT PRIMARY KEY,
     order_number VARCHAR(50) NOT NULL UNIQUE,

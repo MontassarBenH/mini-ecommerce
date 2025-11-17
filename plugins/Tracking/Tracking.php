@@ -1,10 +1,8 @@
 <?php
-// plugins/Tracking/Tracking.php
 
 class Tracking extends BasePlugin
 {
-    // Deine GTM-Container-ID
-    private $gtmId = 'GTM-XXXXXXX'; // TODO: anpassen
+    private $gtmId = 'GTM-XXXXXXX'; // TODO
 
     public function init()
     {
@@ -66,12 +64,12 @@ HTML;
         }
 
         return <<<HTML
-<!-- Google Tag Manager (noscript) -->
+<!-- Google Tag Manager -->
 <noscript>
     <iframe src="https://www.googletagmanager.com/ns.html?id={$this->gtmId}"
             height="0" width="0" style="display:none;visibility:hidden"></iframe>
 </noscript>
-<!-- End Google Tag Manager (noscript) -->
+<!-- End Google Tag Manager -->
 HTML;
     }
 
@@ -89,7 +87,6 @@ window.trackEvent = function(eventName, params) {
     params = params || {};
     var payload = Object.assign({ event: eventName }, params);
     window.dataLayer.push(payload);
-    // Optional fürs Debugging:
     if (window.console && console.log) {
         console.log('[trackEvent]', payload);
     }

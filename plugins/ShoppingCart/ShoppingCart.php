@@ -1,5 +1,4 @@
 <?php
-// plugins/ShoppingCart/ShoppingCart.php
 
 require_once __DIR__ . '/../../config.php';
 
@@ -78,7 +77,6 @@ class ShoppingCart extends BasePlugin {
      * Add item to cart
      */
 public function addToCart($productId, $quantity = 1) {
-    // Check if product exists and has stock
     $product = $this->getProduct($productId);
     if (!$product || $product['stock'] < $quantity) {
         return ['success' => false, 'message' => 'Product not available'];

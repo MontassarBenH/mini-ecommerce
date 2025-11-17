@@ -1,5 +1,4 @@
 <?php
-// plugins/PluginManager.php - Core Plugin System
 
 class PluginManager {
     private static $instance = null;
@@ -28,7 +27,6 @@ class PluginManager {
             $pluginName = basename($dir);
             $manifestPath = $dir . '/plugin.json';
             
-            // Skip if no manifest file
             if (!file_exists($manifestPath)) {
                 continue;
             }

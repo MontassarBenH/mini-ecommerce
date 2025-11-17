@@ -13,7 +13,6 @@
     color: #333333;
 }
 
-/* Falls du Badges z.B. oben links im Produktbild overlayen willst */
 .product-badge-overlay {
     position: absolute;
     top: 8px;
@@ -43,7 +42,6 @@
     color: #ffffff;
 }
 
-/* Optional: leichte Schatten für mehr „Badge“-Look */
 .product-badge {
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.12);
 }

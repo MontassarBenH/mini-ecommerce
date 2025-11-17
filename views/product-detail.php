@@ -1,7 +1,6 @@
 <?php
 require_once __DIR__ . '/../config.php';
 
-// Optional: ImageOptimizer nutzen, wenn du willst
 require_once __DIR__ . '/../seo/ImageOptimizer.php';
 
 $slug = $_GET['slug'] ?? '';
@@ -10,7 +9,6 @@ $product = null;
 $reviewSubmitted = false;
 $reviewError     = null;
 
-// Wurde nach erfolgreichem Review-Submit redirectet?
 if (isset($_GET['review_submitted']) && $_GET['review_submitted'] === '1') {
     $reviewSubmitted = true;
 }
@@ -28,7 +26,6 @@ if ($slug) {
     }
 }
 
-// ⭐ Review-Formular verarbeiten (PRG-Pattern)
 if ($_SERVER['REQUEST_METHOD'] === 'POST' && $product) {
     if (isset($_POST['review_form'])) {
         $rating  = isset($_POST['rating']) ? (int)$_POST['rating'] : 0;
@@ -106,13 +103,13 @@ if ($product) {
     <link rel="stylesheet" href="<?php echo BASE_URL; ?>/assets/css/styles.css">
 
     <?php
-    // 🔥 Google Tag Manager (HEAD)
+    // Google Tag Manager (HEAD)
     echo $pluginManager->renderHook('head_tracking');
 
-    // 🔥 Performance / Preload
+    // Performance / Preload
     echo $pluginManager->renderHook('head_preload');
 
-    // 🔥 Meta Tags (OG, Twitter, Canonical)
+    // Meta Tags (OG, Twitter, Canonical)
     if ($product) {
         echo $pluginManager->renderHook('head_meta', [
             'title'       => $pageTitle,
@@ -128,13 +125,13 @@ if ($product) {
         ]);
     }
 
-    // 🔥 JSON-LD Structured Data
+    // JSON-LD Structured Data
     echo $pluginManager->renderHook('head_structured_data', [
         'breadcrumbs' => $breadcrumbs,
         'product'     => $product ?: null,
     ]);
 
-    // 🔥 Plugin CSS
+    // Plugin CSS
     echo $pluginManager->renderHook('head_css');
 ?>
 
@@ -215,7 +212,7 @@ if ($product) {
                         <div class="product-price">
                             €<?php echo number_format((float)$product['price'], 2); ?>
 
-                            <!-- ⭐ ReviewStars-Plugin (Sterne neben dem Preis) -->
+                            <!-- ReviewStars-Plugin -->
                             <?php echo $pluginManager->renderHook('product_detail_after_price', $product); ?>
                         </div>
 
@@ -256,13 +253,13 @@ if ($product) {
                     </p>
                 <?php endif; ?>
 
-                <!-- ⭐ Review-Bereich (Liste + Formular) -->
+                <!-- Review-Bereich -->
                 <div class="product-reviews product-reviews--fullwidth">
                     <?php echo $pluginManager->renderHook('product_detail_reviews', $product); ?>
                 </div>
 
                 <script>
-                    // Kleines Demo-Tracking (optional)
+                    // Kleines Tracking 
                     const addToCartBtn = document.getElementById('add-to-cart');
                     if (addToCartBtn && <?php echo (int)$product['stock']; ?> > 0) {
                         addToCartBtn.addEventListener('click', () => {

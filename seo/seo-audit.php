@@ -1,5 +1,4 @@
 <?php
-// seo/seo-audit.php - SEO Audit Report
 
 require_once __DIR__ . '/../config.php';
 

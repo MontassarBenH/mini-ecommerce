@@ -1,5 +1,4 @@
 <?php
-// seo/ImageOptimizer.php - Image optimization utilities
 
 class ImageOptimizer {
     
@@ -10,7 +9,6 @@ class ImageOptimizer {
         $srcset = [];
         
         foreach ($sizes as $size) {
-            // For Unsplash images, we can add width parameter
             if (strpos($imageUrl, 'unsplash.com') !== false) {
                 $url = $imageUrl . '&w=' . $size . '&q=80';
                 $srcset[] = $url . ' ' . $size . 'w';

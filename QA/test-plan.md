@@ -1,7 +1,7 @@
 # 📘 TEST PLAN – Mini E-Commerce Playground  
 **Version:** 1.0  
 **Date:** 2025-02-XX  
-**Author:** QA Engineering / (Your Name)
+**Author:** QA Engineering / (Ben)
 
 ---
 
@@ -84,12 +84,12 @@ Based on `/qa/regression-checklist.md`.
 ## 5. TEST ENVIRONMENT
 
 ### Browser Matrix
-| Browser | Version | Status |
-|---------|---------|--------|
-| Chrome | Latest | Mandatory |
-| Firefox | Latest | Recommended |
-| Safari | Latest | Optional |
-| Edge | Latest | Recommended |
+| Browser | Version | Status      |
+|---------|---------|-------------|
+| Chrome  | Latest  | Mandatory   |  
+| Firefox | Latest  | Recommended |
+| Safari  | Latest  | Optional    |
+| Edge    | Latest  | Recommended |
 
 ### Devices
 - Desktop (1920px)
@@ -106,10 +106,10 @@ Based on `/qa/regression-checklist.md`.
 ## 6. TEST DATA
 
 ### Product Test Data
-| ID | Name | Stock | Price |
-|----|------|-------|--------|
-| 1 | Wooden Tower | 10 | 299.00 |
-| 2 | Swing Set | 5 | 149.00 |
+| ID | Name         | Stock | Price  |
+|----|--------------|-------|--------|
+| 1  | Wooden Tower | 10    | 299.00 |
+| 2  | Swing Set    | 5     | 149.00 |
 
 ### Cart Test Data
 - Empty cart  
@@ -139,7 +139,7 @@ Testing is completed when:
 ## 8. APPROVALS
 | Role          | Name  |
 |---------------|-------|
-| QA Engineer   | Ben   |    
-| Developer     | YOU   |
-| Project Owner | YOU   | 
+| QA Engineer   | Ben   |
+| Developer     | Ben   |
+| Project Owner | Ben   | 
 

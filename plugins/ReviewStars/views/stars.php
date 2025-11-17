@@ -3,9 +3,9 @@
  * View: Sterne-Anzeige für Reviews (kleiner Block)
  *
  * Erwartete Variablen:
- * @var float|null $rating      // z.B. 4.5
- * @var int        $reviewCount // z.B. 23
- * @var string     $size        // 'small' oder 'large'
+ * @var float|null $rating      
+ * @var int        $reviewCount 
+ * @var string     $size        
  */
 
 $rating      = isset($rating) ? (float) $rating : null;

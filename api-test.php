@@ -1,6 +1,4 @@
 <?php
-// api-test.php - Test API endpoints directly
-// Access: http://localhost/mini-ecommerce/api-test.php
 
 error_reporting(E_ALL);
 ini_set('display_errors', 1);

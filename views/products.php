@@ -11,7 +11,7 @@ require_once __DIR__ . '/../config.php';
     <link rel="canonical" href="<?php echo BASE_URL; ?>/products">
     <link rel="stylesheet" href="<?php echo BASE_URL; ?>/assets/css/styles.css">
      <?php
-    // ✨ Plugin-CSS einbinden
+    // Plugin-CSS einbinden
     echo $pluginManager->renderHook('head_css');
     ?>
 </head>
@@ -151,7 +151,7 @@ require_once __DIR__ . '/../config.php';
                 </a>
             `;
             
-            // Track product view event (for later SEA module)
+            // Track product view event 
             card.addEventListener('click', () => {
                 trackEvent('view_product', {
                     product_id: product.id,
@@ -163,10 +163,9 @@ require_once __DIR__ . '/../config.php';
             return card;
         }
 
-        // Placeholder for event tracking (Module 4)
+        // Placeholder for event tracking
         function trackEvent(eventName, data) {
             console.log('Event:', eventName, data);
-            // Will implement GTM tracking in Module 4
         }
 
         // Event listeners

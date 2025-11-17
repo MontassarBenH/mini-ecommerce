@@ -1,263 +1,354 @@
-# 🧩 Mini E-Commerce Playground Store
+📘 README.md – Mini E-Commerce Playground
 
-A comprehensive full-stack e-commerce project demonstrating Shopware-like architecture, SEO/SEA optimization, and QA best practices.
+Ein vollständiges Full-Stack E-Commerce-System mit Plugins, SEO, Tracking, Reviews, Warenkorb & automatisierten Tests.
 
-## 📋 Project Overview
+🧩 Mini E-Commerce Playground
 
-This project showcases:
-- **Full-Stack Development**: PHP backend + MySQL + responsive frontend
-- **Marketing Performance**: SEO, tracking, A/B testing, PageSpeed optimization
-- **QA Thinking**: Test plans, test cases, bug reports, performance testing
+Ein voll funktionsfähiges E-Commerce-System, entwickelt als Portfolio-Projekt mit Fokus auf:
 
-## 🚀 Quick Start
+Software-Architektur (Plugin-System)
 
-### Prerequisites
-- PHP 7.4+ (with PDO and MySQL extensions)
-- MySQL 5.7+ or MariaDB
-- Apache web server with mod_rewrite enabled
-- Composer (optional, for future dependencies)
+E-Commerce-Features (Cart, Reviews, Orders)
 
-### Installation Steps
+SEO-Optimierung (JSON-LD, Sitemap, Robots, OG, Twitter Cards)
 
-#### 1. Clone or Download the Project
-```bash
-git clone https://github.com/yourusername/mini-ecommerce.git
-cd mini-ecommerce
-```
+SEA & Tracking (Google Tag Manager + Events)
 
-#### 2. Create Project Structure
-```
+QA / Testing (Smoke Tests, Regression Tests, Automated PHPUnit Tests, Performance Tests)
+
+🚀 Features
+🛒 Shopping Cart Plugin
+
+Sidebar-Cart (slide-in)
+
+Add / Update / Remove items
+
+Persistenz per cart_items Tabelle (session-based)
+
+Checkout modal + Order creation
+
+Frontend dynamisch mit JavaScript
+
+Tested with PHPUnit
+
+⭐ ReviewStars Plugin
+
+Custom Review-System für jedes Produkt
+
+1–5 Sterne mit modernem UI
+
+Nutzer kann:
+
+Review schreiben
+
+Sterne bewerten
+
+Name & Titel optional
+
+Anzeige:
+
+Durchschnittsbewertung
+
+Anzahl Reviews
+
+Einzelne Bewertungen
+
+🔍 SEO Optimizer Plugin
+
+Automatisierte Suchmaschinenoptimierung:
+
+Meta Tags
+
+Title
+
+Description
+
+Canonical
+
+Robots
+
+Open Graph
+
+Twitter Cards
+
+Structured Data (JSON-LD)
+
+Organization
+
+Website Search
+
+Breadcrumbs
+
+Product
+
+AggregateRating
+
+Sitemap Generator (sitemap.php)
+
+Robots.txt
+
+Critical CSS + Preload + Preconnect
+
+📦 Produkte & Kategorien (JSON API)
+
+/api/products
+
+/api/products/{slug}
+
+/api/categories
+
+Filter, Suche, Slugs, Preise, Stock, Bilder
+
+🎯 SEA / Tracking Module
+
+Google Tag Manager Integration
+
+E-Commerce Tracking Events:
+
+view_item
+
+add_to_cart
+
+purchase
+
+Campaign Landing Page Templates
+
+Tracking-ready Product Detail Pages
+
+🧪 Testing & QA Module
+
+Komplette Teststrategie mit Dokumentation:
+
+✔ Manual Test Documentation
+
+Test Plan
+
+Smoke Test Suite
+
+Regression Tests
+
+Test Cases
+
+Review Tests (tc-reviews.md)
+
+Bug report templates
+
+✔ Automated Testing (PHPUnit)
+
+Unit Tests
+
+API Tests
+
+Plugin Tests
+
+Regression Test für Review-Bug
+
+Performance Tests (mit Time Assertions)
+
+Smoke Tests als Gruppe
+
+Coverage Reports (wenn Xdebug aktiviert)
+
+HTML Testdox Reports
+
+✔ Performance Testing
+
+API Response Time Checks (<150–200ms)
+
+Rendering Performance (Server)
+
+Lighthouse Frontend-Audit (Google Chrome)
+
+🏗 Projektstruktur
 mini-ecommerce/
-├── index.php                 # Main router
-├── config.php               # Database configuration
-├── .htaccess               # URL rewriting
-├── controllers/
-│   ├── ProductController.php
-│   └── CategoryController.php
+│
+│
+│── │ ──── controllers/
+│   │   ├── ProductController.php
+│   │   ├── CategoryController.php
+│   │   └── CartController.php
+│   └── index.php
+│
+├── plugins/
+│   ├── ShoppingCart/
+│   │   ├── ShoppingCart.php
+│   │   ├── plugin.json
+│   │   ├── assets/
+│   │   │   ├── cart.css
+│   │   │   └── cart.js
+│   │   └── views/cart-modal.php
+│   │
+│   ├── ReviewStars/
+│   │   ├── ReviewStars.php
+│   │   ├── plugin.json
+│   │   ├── assets/stars.css
+│   │   └── views/stars.php
+│   │
+│   └── SEOOptimizer/
+│       ├── SEOOptimizer.php
+│       ├── plugin.json
+│       └── assets/css/critical.css
+│
+├── seo/
+│   ├── ImageOptimizer.php
+│   └── seo-audit.php
+│
+├── tests/
+│   ├── ApiProductsTest.php
+│   ├── ApiCategoriesTest.php
+│   ├── CartTest.php
+│   ├── ReviewStarsTest.php
+│   ├── PerformanceApiTest.php
+│   ├── PerformanceCartTest.php
+│   ├── SmokeTest.php
+│   └── RegressionReviewBugTest.php
+│
 ├── views/
 │   ├── home.php
-│   ├── products.php
 │   ├── product-detail.php
-│   ├── category.php
-│   └── 404.php
-├── assets/
-│   ├── css/
-│   │   └── styles.css
-│   ├── js/
-│   └── images/
-├── plugins/                 # Module 2
-├── tests/                   # Module 6
-├── seo/                     # Module 3
-├── tracking/                # Module 4
-└── performance/             # Module 5
-```
+│   ├── products.php
+│   └── category.php
+│
+├── phpunit.xml
+├── sitemap.php
+├── robots.txt
+└── README.md
 
-#### 3. Setup Database
+🔧 Installation
+1. Projekt lokal klonen
+git clone 
+cd mini-ecommerce
 
-**Create Database:**
-```bash
-mysql -u root -p
-```
+2. Composer installieren (falls nicht vorhanden)
 
-```sql
-CREATE DATABASE mini_ecommerce CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
-EXIT;
-```
+https://getcomposer.org/download/
 
-**Import Schema:**
-```bash
-mysql -u root -p mini_ecommerce < database/schema.sql
-```
+3. Dependencies installieren
 
-Or manually run the SQL from `schema.sql` in your MySQL client.
+⚠ Wichtig: Dein PHP liegt in XAMPP
 
-#### 4. Configure Database Connection
+& "C:\xampp\php\php.exe" composer.phar install
 
-Edit `config.php`:
-```php
-define('DB_HOST', 'localhost');
-define('DB_NAME', 'mini_ecommerce');
-define('DB_USER', 'root');
-define('DB_PASS', 'your_password');
-define('BASE_URL', 'http://localhost/mini-ecommerce');
-```
+4. PHPUnit testen
+& "C:\xampp\php\php.exe" vendor\bin\phpunit
 
-#### 5. Setup Apache Virtual Host (Recommended)
+🤖 Automated Testing
+✔ Alle Tests ausführen
+& "C:\xampp\php\php.exe" vendor\bin\phpunit
 
-Edit your Apache `httpd.conf` or create a virtual host:
+✔ Nur Smoke Test Suite
+php vendor/bin/phpunit --group smoke
 
-```apache
-<VirtualHost *:80>
-    ServerName mini-ecommerce.local
-    DocumentRoot "/path/to/mini-ecommerce"
-    
-    <Directory "/path/to/mini-ecommerce">
-        Options Indexes FollowSymLinks
-        AllowOverride All
-        Require all granted
-    </Directory>
-</VirtualHost>
-```
+✔ Regression Tests (z. B. Review-Bug)
+php vendor/bin/phpunit --group regression
 
-Add to your hosts file:
-```
-127.0.0.1 mini-ecommerce.local
-```
+✔ Performance Tests
+php vendor/bin/phpunit --group performance
 
-#### 6. Verify Installation
+✔ HTML Test Report generieren
+php vendor/bin/phpunit --testdox-html build/test-report.html
 
-Visit: `http://localhost/mini-ecommerce` or `http://mini-ecommerce.local`
+📝 Manuelles Testing
+🔥 Smoke Test Suite
+Test	Status	Beschreibung
+Startseite lädt	✅	CSS/JS ok
+Produktseite lädt	✅	Slug funktioniert
+Produkt kann in Warenkorb	✅	Cart Modal
+Checkout öffnet	✅	Modal sichtbar
+Reviews werden angezeigt	✅	Plugin lädt
+🐞 Regression Tests
+Beispiel: Doppelter Review-Bug
 
-Test API endpoints:
-- `http://localhost/mini-ecommerce/api/products`
-- `http://localhost/mini-ecommerce/api/categories`
-- `http://localhost/mini-ecommerce/api/products/wooden-adventure-tower`
+Der Fehler wurde reproduziert, gefixt und automatisiert getestet.
 
-## 📁 Project Modules
+Test-Datei:
 
-### ✅ MODULE 1 - Core Online Shop (COMPLETED)
-- [x] Product listing page with filtering
-- [x] Product detail page
-- [x] Category navigation
-- [x] Search functionality
-- [x] Responsive layout
-- [x] RESTful API endpoints
-- [x] Clean URL structure
+tests/RegressionReviewBugTest.php
 
-**Key Files:**
-- `controllers/ProductController.php` - Product business logic
-- `controllers/CategoryController.php` - Category business logic
-- `views/products.php` - Product listing UI
-- `views/product-detail.php` - Product detail UI
-- `assets/css/styles.css` - Responsive styling
+📋 Manuelle Testfälle
 
-### 🔌 MODULE 2 - Plugin System (NEXT)
-Create a Shopware-like plugin architecture:
-- Plugin manifest system
-- Hook/event system
-- Theme customization
-- Example plugins (reviews, badges, SEO data)
+Alle dokumentiert in:
 
-### 🔍 MODULE 3 - SEO Performance
-- Title tags & meta descriptions
-- Canonical URLs
-- JSON-LD structured data
-- Semantic HTML5
-- XML sitemap generation
-- robots.txt
-- Core Web Vitals optimization
+/docs/tests/tc-reviews.md
+/docs/tests/test-plan.md
+/docs/tests/testcases/
 
-### 📊 MODULE 4 - SEA Performance & Tracking
-- Google Tag Manager integration
-- Event tracking (view_product, add_to_cart, checkout, purchase)
-- Landing page optimization
-- Conversion tracking setup
 
-### 🧪 MODULE 5 - CRO / A/B Testing
-- A/B test implementation
-- Scroll depth tracking
-- CTA optimization
-- User behavior analytics
+Beispiele:
 
-### ✅ MODULE 6 - QA Testing
-- Comprehensive test plan
-- Test case documentation
-- Bug report templates
-- Performance testing (Lighthouse, GTmetrix)
-- Regression testing
+TC-REV-001 – Review mit 5 Sternen absenden
 
-## 🛠️ Development Workflow
+TC-REV-004 – Durchschnitt korrekt berechnen
 
-### Running Locally
-```bash
-# Start Apache and MySQL
-sudo service apache2 start
-sudo service mysql start
+TC-CART-003 – Menge aktualisieren
 
-# Or use XAMPP/MAMP control panel
-```
+TC-PROD-006 – Preisformat testen
 
-### Testing API Endpoints
+📊 Performance Testing
+✔ PHPUnit Performance Tests
 
-**Get all products:**
-```bash
-curl http://localhost/mini-ecommerce/api/products
-```
+Messen Response-Zeiten der API-Kontroller:
 
-**Filter by category:**
-```bash
-curl http://localhost/mini-ecommerce/api/products?category=wooden-playgrounds
-```
+getProducts() < 200ms
 
-**Search products:**
-```bash
-curl http://localhost/mini-ecommerce/api/products?search=swing
-```
+getProduct(slug) < 150ms
 
-**Get single product:**
-```bash
-curl http://localhost/mini-ecommerce/api/products/wooden-adventure-tower
-```
+Cart->addToCart() < 150ms
 
-## 📊 Database Schema
+usw.
 
-### Tables
-- `products` - Product catalog
-- `categories` - Product categories
-- `product_categories` - Many-to-many relationship
+✔ Lighthouse Audit
 
-### Key Features
-- Foreign key constraints
-- Indexes on frequently queried columns
-- Slug-based URLs for SEO
-- Metadata fields for SEO optimization
+Frontend Performance gemessen über Chrome DevTools
 
-## 🎯 Learning Objectives
+Berichte gespeichert unter:
 
-### Full-Stack Development
-✓ PHP MVC-like architecture
-✓ RESTful API design
-✓ MySQL database design
-✓ Frontend-backend integration
-✓ Responsive web design
+/docs/performance/lighthouse/
 
-### Marketing & Performance
-- SEO best practices
-- Tracking implementation
-- Landing page optimization
-- A/B testing methodology
-- PageSpeed optimization
+🔍 SEO Testing
 
-### QA & Testing
-- Test planning
-- Test case design
-- Bug reporting
-- Performance testing
-- Regression testing
+JSON-LD Validierung via Rich Result Tool
 
-## 🔄 Next Steps
+Meta Tag Tests
 
-1. **Complete Module 2**: Build plugin system
-2. **Implement Module 3**: SEO optimization
-3. **Add Module 4**: Tracking & analytics
-4. **Create Module 5**: A/B testing
-5. **Document Module 6**: QA testing
+Canonical Check
 
-## 📝 Notes
+Sitemap/Robots Test
 
-- This project uses vanilla JavaScript (no frameworks) for simplicity
-- Images use Unsplash placeholders (replace with actual product images)
-- Cart functionality is placeholder (extend in later modules)
-- Production deployment would require additional security measures
+SEO Audit Report unter /seo/seo-audit.php
 
-## 🤝 Contributing
+📈 SEA / Tracking
 
-This is a portfolio project for learning purposes. Feel free to fork and customize for your own portfolio!
+Google Tag Manager injected in <head>
 
-## 📄 License
+DataLayer Events:
 
-MIT License - Free to use for educational and portfolio purposes.
+view_item
 
----
+add_to_cart
 
-**Built with ❤️ to showcase E-Commerce, Marketing, and QA skills**
+begin_checkout
+
+purchase
+
+Konfigurierbar über:
+
+assets/js/gtm.js
+views/product-detail.php
+views/home.php
+
+🏁 Fazit
+
+Dieses Projekt zeigt Full-Stack Entwicklung, Plugin-Architektur, SEO/SEA-Optimierung, Testing-Professionalität und CI-taugliche QA-Struktur.
+
+Perfekt für professionelle Bewerbungen als:
+
+Full-Stack Developer
+
+Web Developer
+
+QA/Testing Engineer
+
+Automation Engineer
+
+E-Commerce Developer

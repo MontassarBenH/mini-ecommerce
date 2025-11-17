@@ -1,12 +1,10 @@
 <?php
 require_once __DIR__ . '/../config.php';
 
-// Basis-SEO-Daten für die Startseite
 $pageTitle       = 'Mini E-Commerce Playground - Premium Playground Equipment';
 $metaDescription = 'Shop high-quality playground equipment for children. Wooden and steel playground structures, swing sets, and climbing frames.';
 $canonicalUrl    = BASE_URL . '/';
 
-// Breadcrumbs für Schema (nur Home)
 $breadcrumbs = [
     ['name' => 'Home', 'url' => $canonicalUrl],
 ];
@@ -28,25 +26,25 @@ $breadcrumbs = [
     <link rel="stylesheet" href="<?php echo BASE_URL; ?>/assets/css/styles.css">
 
     <?php
-    // 🔥 Google Tag Manager (GTM)
+    // Google Tag Manager (GTM)
     echo $pluginManager->renderHook('head_tracking');
 
-    // 🔥 Performance / Preload (DNS prefetch, preconnect, CSS preload)
+    // Performance / Preload (DNS prefetch, preconnect, CSS preload)
     echo $pluginManager->renderHook('head_preload');
 
-    // 🔍 Erweiterte Meta-Tags (OG, Twitter, Robots...) über SEOOptimizer
+    // Erweiterte Meta-Tags (OG, Twitter, Robots...) über SEOOptimizer
     echo $pluginManager->renderHook('head_meta', [
         'title'       => $pageTitle,
         'description' => $metaDescription,
         'type'        => 'website',
     ]);
 
-    // 🧩 Strukturierte Daten: Organization + Website + Breadcrumbs
+    // Strukturierte Daten: Organization + Website + Breadcrumbs
     echo $pluginManager->renderHook('head_structured_data', [
         'breadcrumbs' => $breadcrumbs,
     ]);
 
-    // 🎨 CSS von Plugins (Cart, Reviews, Badges, etc.)
+    // CSS von Plugins (Cart, Reviews, Badges, etc.)
     echo $pluginManager->renderHook('head_css');
 ?>
 
