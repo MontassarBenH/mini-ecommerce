@@ -1,12 +1,54 @@
+<?php
+require_once __DIR__ . '/../config.php';
+
+// Basis-SEO-Daten für die Startseite
+$pageTitle       = 'Mini E-Commerce Playground - Premium Playground Equipment';
+$metaDescription = 'Shop high-quality playground equipment for children. Wooden and steel playground structures, swing sets, and climbing frames.';
+$canonicalUrl    = BASE_URL . '/';
+
+// Breadcrumbs für Schema (nur Home)
+$breadcrumbs = [
+    ['name' => 'Home', 'url' => $canonicalUrl],
+];
+?>
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Mini E-Commerce Playground - Premium Playground Equipment</title>
-    <meta name="description" content="Shop high-quality playground equipment for children. Wooden and steel playground structures, swing sets, and climbing frames.">
-    <link rel="canonical" href="<?php echo BASE_URL; ?>/">
+
+    <title><?php echo htmlspecialchars($pageTitle, ENT_QUOTES, 'UTF-8'); ?></title>
+
+    <!-- Basis-Description (Fallback) -->
+    <meta name="description" content="<?php echo htmlspecialchars($metaDescription, ENT_QUOTES, 'UTF-8'); ?>">
+
+    <!-- Klassisches Canonical -->
+    <link rel="canonical" href="<?php echo htmlspecialchars($canonicalUrl, ENT_QUOTES, 'UTF-8'); ?>">
+
     <link rel="stylesheet" href="<?php echo BASE_URL; ?>/assets/css/styles.css">
+
+    <?php
+    // 🔥 Performance / Preload (DNS prefetch, preconnect, CSS preload)
+    echo $pluginManager->renderHook('head_preload');
+
+    // 🔍 Erweiterte Meta-Tags (OG, Twitter, Robots...) über SEOOptimizer
+    echo $pluginManager->renderHook('head_meta', [
+        'title'       => $pageTitle,
+        'description' => $metaDescription,
+        'type'        => 'website',
+        // 'image'    => BASE_URL . '/assets/images/og-default.jpg' // optional, sonst nimmt Plugin den Default
+    ]);
+
+    // 🧩 Strukturierte Daten: Organization + Website + Breadcrumbs
+    echo $pluginManager->renderHook('head_structured_data', [
+        'breadcrumbs' => $breadcrumbs,
+        // keine 'product' / 'products' hier, ist nur die Startseite
+    ]);
+
+    // 🎨 CSS von Plugins (Cart, Reviews, Badges, etc.)
+    echo $pluginManager->renderHook('head_css');
+    ?>
+
     <style>
         .hero {
             background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
@@ -67,6 +109,11 @@
     </style>
 </head>
 <body>
+    <?php
+    // 👉 Hier kommen JS-Dateien der Plugins rein (z. B. cart.js)
+    echo $pluginManager->renderHook('after_body_open');
+    ?>
+
     <!-- Header -->
     <header class="header">
         <div class="container">
@@ -224,5 +271,10 @@
         loadCategories();
         loadFeaturedProducts();
     </script>
+
+    <?php
+    // Cart-Sidebar + Checkout-Modal etc. (ShoppingCart-Plugin)
+    echo $pluginManager->renderHook('before_body_close');
+    ?>
 </body>
 </html>

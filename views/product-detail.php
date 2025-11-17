@@ -1,11 +1,14 @@
 <?php
 require_once __DIR__ . '/../config.php';
 
+// Optional: ImageOptimizer nutzen, wenn du willst
+require_once __DIR__ . '/../seo/ImageOptimizer.php';
+
 $slug = $_GET['slug'] ?? '';
 $product = null;
 
 $reviewSubmitted = false;
-$reviewError = null;
+$reviewError     = null;
 
 // Wurde nach erfolgreichem Review-Submit redirectet?
 if (isset($_GET['review_submitted']) && $_GET['review_submitted'] === '1') {
@@ -15,7 +18,8 @@ if (isset($_GET['review_submitted']) && $_GET['review_submitted'] === '1') {
 // Produkt über API laden
 if ($slug) {
     $apiUrl = BASE_URL . '/api/products/' . urlencode($slug);
-    $json = @file_get_contents($apiUrl);
+    $json   = @file_get_contents($apiUrl);
+
     if ($json !== false) {
         $result = json_decode($json, true);
         if (!empty($result['success']) && !empty($result['data'])) {
@@ -24,7 +28,7 @@ if ($slug) {
     }
 }
 
-// ⭐ Review-Formular verarbeiten
+// ⭐ Review-Formular verarbeiten (PRG-Pattern)
 if ($_SERVER['REQUEST_METHOD'] === 'POST' && $product) {
     if (isset($_POST['review_form'])) {
         $rating  = isset($_POST['rating']) ? (int)$_POST['rating'] : 0;
@@ -51,15 +55,38 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && $product) {
                     ':author'  => $author ?: null,
                 ]);
 
-                // 🎯 Redirect nach erfolgreichem Submit (PRG-Pattern)
+                // Redirect nach erfolgreichem Submit
                 header('Location: ' . BASE_URL . '/product/' . urlencode($product['slug']) . '?review_submitted=1');
                 exit;
             } catch (PDOException $e) {
-                // In echt: loggen
                 $reviewError = 'Sorry, your review could not be saved.';
             }
         }
     }
+}
+
+// Hilfswerte für SEO / Meta
+if ($product) {
+    $pageTitle = $product['meta_title'] ?? ($product['name'] . ' - Mini E-Commerce Playground');
+    $metaDescription = $product['meta_description'] ?? ($product['short_description'] ?? '');
+    $canonicalUrl = BASE_URL . '/product/' . $product['slug'];
+} else {
+    $pageTitle = 'Product Not Found - Mini E-Commerce Playground';
+    $metaDescription = 'Product not found';
+    $canonicalUrl = BASE_URL . '/products';
+}
+
+// Breadcrumbs für SEOOptimizer
+$breadcrumbs = [
+    ['name' => 'Home',     'url' => BASE_URL . '/'],
+    ['name' => 'Products', 'url' => BASE_URL . '/products'],
+];
+
+if ($product) {
+    $breadcrumbs[] = [
+        'name' => $product['name'],
+        'url'  => $canonicalUrl,
+    ];
 }
 ?>
 <!DOCTYPE html>
@@ -67,38 +94,50 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && $product) {
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>
-        <?php
-        if ($product) {
-            echo htmlspecialchars($product['meta_title'] ?? ($product['name'] . ' - Mini E-Commerce Playground'));
-        } else {
-            echo 'Product Not Found - Mini E-Commerce Playground';
-        }
-        ?>
-    </title>
-    <meta name="description" content="<?php
-        if ($product) {
-            echo htmlspecialchars($product['meta_description'] ?? ($product['short_description'] ?? ''));
-        } else {
-            echo 'Product not found';
-        }
-    ?>">
-    <link rel="canonical" href="<?php
-        if ($product) {
-            echo BASE_URL . '/product/' . htmlspecialchars($product['slug']);
-        } else {
-            echo BASE_URL . '/products';
-        }
-    ?>">
+
+    <title><?php echo htmlspecialchars($pageTitle, ENT_QUOTES, 'UTF-8'); ?></title>
+
+    <!-- Basis Meta Description (für Fallback) -->
+    <meta name="description" content="<?php echo htmlspecialchars($metaDescription, ENT_QUOTES, 'UTF-8'); ?>">
+
+    <!-- Standard Canonical (SEOOptimizer setzt zusätzlich OG/Twitter/Robots etc.) -->
+    <link rel="canonical" href="<?php echo htmlspecialchars($canonicalUrl, ENT_QUOTES, 'UTF-8'); ?>">
+
     <link rel="stylesheet" href="<?php echo BASE_URL; ?>/assets/css/styles.css">
 
     <?php
+    // 🎯 Performance / Preload Tags (DNS prefetch, preconnect, preload CSS)
+    echo $pluginManager->renderHook('head_preload');
+
+    // 🎯 Erweiterte Meta-Tags (OG, Twitter, Robots…), ähnlich wie frühere updateMetadata()
+    if ($product) {
+        echo $pluginManager->renderHook('head_meta', [
+            'title'       => $pageTitle,
+            'description' => $metaDescription,
+            'image'       => $product['image_url'],
+            'type'        => 'product',
+        ]);
+    } else {
+        echo $pluginManager->renderHook('head_meta', [
+            'title'       => $pageTitle,
+            'description' => $metaDescription,
+            'type'        => 'website',
+        ]);
+    }
+
+    // 🎯 Strukturierte Daten (Organization, Website, Breadcrumb, Product)
+    echo $pluginManager->renderHook('head_structured_data', [
+        'breadcrumbs' => $breadcrumbs,
+        'product'     => $product ?: null,
+    ]);
+
+    // ✨ Plugin-CSS (ReviewStars, BestsellerBadge, ShoppingCart, etc.)
     echo $pluginManager->renderHook('head_css');
     ?>
 </head>
 <body>
     <?php
-    // ✨ Scripts direkt nach <body> (z.B. cart.js vom ShoppingCart-Plugin)
+    // JS der Plugins (z. B. ShoppingCart) direkt nach <body>
     echo $pluginManager->renderHook('after_body_open');
     ?>
 
@@ -144,8 +183,15 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && $product) {
                 <!-- Produkt-Content -->
                 <article class="product-detail">
                     <div class="product-image">
-                        <img src="<?php echo htmlspecialchars($product['image_url']); ?>"
-                             alt="<?php echo htmlspecialchars($product['name']); ?>">
+                        <?php
+                        // Bild optimiert ausgeben (Unsplash + lazy loading)
+                        echo ImageOptimizer::getWebPImageTag(
+                            $product['image_url'],
+                            $product['name'],
+                            'product-image-main',
+                            800
+                        );
+                        ?>
                     </div>
 
                     <div class="product-details">
@@ -165,13 +211,15 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && $product) {
                         <div class="product-price">
                             €<?php echo number_format((float)$product['price'], 2); ?>
 
-                            <!-- ⭐ ReviewStars-Plugin (neben dem Preis) -->
+                            <!-- ⭐ ReviewStars-Plugin (Sterne neben dem Preis) -->
                             <?php echo $pluginManager->renderHook('product_detail_after_price', $product); ?>
                         </div>
 
                         <div class="product-stock">
                             <?php if ($product['stock'] > 0): ?>
-                                <span class="in-stock">✓ In Stock (<?php echo (int)$product['stock']; ?> available)</span>
+                                <span class="in-stock">
+                                    ✓ In Stock (<?php echo (int)$product['stock']; ?> available)
+                                </span>
                             <?php else: ?>
                                 <span class="out-of-stock">Out of Stock</span>
                             <?php endif; ?>
@@ -188,10 +236,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && $product) {
                                 id="add-to-cart"
                                 <?php echo $product['stock'] == 0 ? 'disabled' : ''; ?>
                                 data-product-id="<?php echo (int)$product['id']; ?>"
-                                data-product-name="<?php echo htmlspecialchars($product['name'], ENT_QUOTES, 'UTF-8'); ?>"
-                                data-product-price="<?php echo number_format((float)$product['price'], 2, '.', ''); ?>"
-                                data-product-image="<?php echo htmlspecialchars($product['image_url'], ENT_QUOTES, 'UTF-8'); ?>"
-                                data-product-slug="<?php echo htmlspecialchars($product['slug'], ENT_QUOTES, 'UTF-8'); ?>"
                             >
                                 <?php echo $product['stock'] > 0 ? '🛒 Add to Cart' : 'Out of Stock'; ?>
                             </button>
@@ -199,18 +243,34 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && $product) {
                     </div>
                 </article>
 
-                <!-- ⭐ Review-Bereich jetzt unter dem ganzen Produkt, volle Breite -->
+                <!-- Review-Erfolgs-/Fehlermeldungen -->
                 <?php if ($reviewSubmitted): ?>
                     <p class="alert alert-success">Thank you for your review!</p>
                 <?php elseif ($reviewError): ?>
                     <p class="alert alert-error">
-                        <?= htmlspecialchars($reviewError, ENT_QUOTES, 'UTF-8') ?>
+                        <?php echo htmlspecialchars($reviewError, ENT_QUOTES, 'UTF-8'); ?>
                     </p>
                 <?php endif; ?>
 
+                <!-- ⭐ Review-Bereich (Liste + Formular) -->
                 <div class="product-reviews product-reviews--fullwidth">
                     <?php echo $pluginManager->renderHook('product_detail_reviews', $product); ?>
                 </div>
+
+                <script>
+                    // Kleines Demo-Tracking (optional)
+                    const addToCartBtn = document.getElementById('add-to-cart');
+                    if (addToCartBtn && <?php echo (int)$product['stock']; ?> > 0) {
+                        addToCartBtn.addEventListener('click', () => {
+                            console.log('Event: click_add_to_cart', {
+                                product_id: <?php echo (int)$product['id']; ?>,
+                                product_name: '<?php echo addslashes($product['name']); ?>',
+                                price: '<?php echo $product['price']; ?>',
+                                currency: 'EUR'
+                            });
+                        });
+                    }
+                </script>
             <?php endif; ?>
         </div>
     </main>
@@ -223,6 +283,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && $product) {
     </footer>
 
     <?php
+    // Cart-Sidebar / Checkout-Modal etc.
     echo $pluginManager->renderHook('before_body_close');
     ?>
 </body>
