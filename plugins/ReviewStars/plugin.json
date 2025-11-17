@@ -1,0 +1,9 @@
+{
+    "name": "Review Stars",
+    "description": "Zeigt Sterne-Bewertungen und Review-Anzahl auf Produktkarten und Produktdetailseiten an.",
+    "class": "ReviewStars",
+    "version": "1.0.0",
+    "enabled": true,
+    "directory": "ReviewStars",
+    "author": "Ben"
+}

@@ -1,0 +1,49 @@
+/* Basisstil für Badges auf Produktkarten */
+.product-badge {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    padding: 4px 8px;
+    border-radius: 999px;
+    font-size: 0.75rem;
+    font-weight: 600;
+    letter-spacing: 0.02em;
+    white-space: nowrap;
+    background: #eeeeee;
+    color: #333333;
+}
+
+/* Falls du Badges z.B. oben links im Produktbild overlayen willst */
+.product-badge-overlay {
+    position: absolute;
+    top: 8px;
+    left: 8px;
+}
+
+/* Text-Spanne im Badge */
+.product-badge__label {
+    display: inline-flex;
+    align-items: center;
+    gap: 4px;
+}
+
+/* Varianten */
+.product-badge--bestseller {
+    background: linear-gradient(135deg, #f5b700, #ff8c00);
+    color: #ffffff;
+}
+
+.product-badge--new {
+    background: linear-gradient(135deg, #00c853, #00e676);
+    color: #ffffff;
+}
+
+.product-badge--sale {
+    background: linear-gradient(135deg, #ff1744, #ff5252);
+    color: #ffffff;
+}
+
+/* Optional: leichte Schatten für mehr „Badge“-Look */
+.product-badge {
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.12);
+}

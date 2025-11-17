@@ -1,0 +1,9 @@
+{
+    "name": "Bestseller Badge",
+    "description": "Zeigt verschiedene Badges (Bestseller, Neu, Sale) auf Produktkarten an.",
+    "class": "BestsellerBadge",
+    "version": "1.0.0",
+    "enabled": true,
+    "directory": "BestsellerBadge",
+    "author": "Ben"
+}

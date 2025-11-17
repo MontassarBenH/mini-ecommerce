@@ -1,0 +1,17 @@
+{
+  "name": "Shopping Cart",
+  "version": "1.0.0",
+  "description": "Complete shopping cart system with checkout functionality",
+  "author": "Ben",
+  "class": "ShoppingCart",
+  "directory": "ShoppingCart",
+  "enabled": true,
+  "hooks": [
+    "head_css",
+    "before_body_close",
+    "after_body_open"
+  ],
+  "requires": {
+    "php": ">=7.4"
+  }
+}

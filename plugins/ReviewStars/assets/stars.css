@@ -1,0 +1,208 @@
+.review-stars {
+    display: inline-flex;
+    flex-direction: column;
+    gap: 2px;
+    font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+}
+
+.review-stars-icons {
+    display: inline-flex;
+    align-items: center;
+    gap: 2px;
+}
+
+.review-stars-small .star {
+    font-size: 0.9rem;
+}
+
+.review-stars-large .star {
+    font-size: 1.4rem;
+}
+
+.star {
+    display: inline-block;
+    line-height: 1;
+}
+
+/* Farben */
+.star-full {
+    color: #f5a623; /* Gold */
+}
+
+.star-empty {
+    color: #dddddd;
+}
+
+/* Half-Star via Overlay */
+.star-half {
+    position: relative;
+    color: #dddddd; /* Grundfarbe grau */
+}
+
+.star-half::before {
+    content: '★';
+    position: absolute;
+    left: 0;
+    top: 0;
+    width: 50%;
+    overflow: hidden;
+    color: #f5a623;
+}
+
+/* Meta-Infos (Rating + Anzahl) */
+.review-stars-meta {
+    font-size: 0.8rem;
+    color: #666666;
+}
+
+.review-stars-large .review-stars-meta {
+    font-size: 0.9rem;
+}
+
+.review-stars-rating {
+    font-weight: 600;
+    margin-right: 4px;
+}
+
+/* === Interaktive Rating-Sterne im Formular === */
+
+.rating-stars-wrapper {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+}
+
+.rating-stars {
+    display: inline-flex;
+    gap: 0.25rem;
+    cursor: pointer;
+}
+
+.rating-star {
+    background: none;
+    border: none;
+    padding: 0;
+    margin: 0;
+    font-size: 1.5rem;
+    line-height: 1;
+    color: #dddddd; /* leere Sterne */
+    cursor: pointer;
+    transition: color 0.15s ease, transform 0.1s ease;
+}
+
+.rating-star.is-filled,
+.rating-star.is-hovered {
+    color: #f5a623; /* goldene Sterne */
+}
+
+.rating-star:focus-visible {
+    outline: 2px solid #1976d2;
+    outline-offset: 2px;
+}
+
+/* Formular-Layout hübscher ausrichten */
+
+.review-form .form-row {
+    margin-bottom: 0.85rem;
+}
+
+/* Desktop: Label links, Input rechts auf einer Linie */
+@media (min-width: 640px) {
+    .review-form .form-row {
+        display: flex;
+        align-items: flex-start;
+        gap: 0.75rem;
+    }
+
+    .review-form label {
+        width: 140px;
+        flex-shrink: 0;
+        margin-top: 0.35rem;
+    }
+
+    .review-form input[type="text"],
+    .review-form select,
+    .review-form textarea,
+    .rating-stars-wrapper {
+        flex: 1;
+    }
+}
+
+/* Entire review list */
+.reviews-list {
+    display: flex;
+    flex-direction: column;
+    gap: 1.2rem;
+}
+
+/* Review card */
+.review-item-card {
+    border: 1px solid #e3e3e3;
+    border-radius: 8px;
+    padding: 1rem 1.2rem;
+    background: #fff;
+}
+
+/* Header row: avatar, name/date, stars on one line */
+.review-item-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 0.6rem;
+}
+
+/* Left block: Avatar + name/date */
+.review-item-author-block {
+    display: flex;
+    align-items: center;
+    gap: 0.8rem;
+}
+
+/* Avatar placeholder */
+.review-avatar-placeholder {
+    width: 38px;
+    height: 38px;
+    border-radius: 50%;
+    background: #1976d2;
+    color: #fff;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-weight: 600;
+    font-size: 1rem;
+}
+
+/* Author name */
+.review-author {
+    font-weight: 600;
+    font-size: 0.95rem;
+}
+
+/* Date */
+.review-date {
+    font-size: 0.8rem;
+    color: #777;
+    margin-top: 1px;
+}
+
+/* Rating stars */
+.review-rating .star {
+    font-size: 1rem;
+    color: #f5a623;
+    display: inline-block;
+}
+
+/* Title (optional) */
+.review-title {
+    font-size: 1rem;
+    margin: 0.5rem 0 0.25rem;
+    font-weight: 600;
+}
+
+/* Comment text */
+.review-comment {
+    font-size: 0.9rem;
+    color: #444;
+    line-height: 1.5;
+    margin-top: 0.25rem;
+}
