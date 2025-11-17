@@ -1,173 +1,120 @@
-📘 README.md – Mini E-Commerce Playground
+# 🧩 Mini E-Commerce Playground
+
+A complete full-stack e-commerce system with plugin architecture, SEO optimization, tracking integration, reviews, shopping cart, and comprehensive automated testing.
+
+[![PHP Version](https://img.shields.io/badge/PHP-%3E%3D7.4-blue)](https://php.net)
+[![PHPUnit](https://img.shields.io/badge/PHPUnit-9.x-green)](https://phpunit.de)
+[![License](https://img.shields.io/badge/license-MIT-orange)](LICENSE)
+
+---
+
+## 📋 Overview
+
+A fully functional e-commerce system developed as a portfolio project showcasing:
+
+- **Software Architecture**: Modular plugin system
+- **E-Commerce Features**: Shopping cart, reviews, order management
+- **SEO Optimization**: JSON-LD, sitemaps, robots.txt, Open Graph, Twitter Cards
+- **SEA & Tracking**: Google Tag Manager with e-commerce events
+- **QA & Testing**: Smoke tests, regression tests, automated PHPUnit tests, performance testing
+
+---
+
+## 🚀 Key Features
+
+### 🛒 Shopping Cart Plugin
+- **Sidebar Cart**: Smooth slide-in interface
+- **Cart Operations**: Add, update, and remove items
+- **Data Persistence**: Session-based storage with `cart_items` table
+- **Checkout Flow**: Modal-based checkout with order creation
+- **Dynamic Frontend**: JavaScript-powered interactions
+- **Fully Tested**: Complete PHPUnit test coverage
+
+### ⭐ ReviewStars Plugin
+- **Custom Review System**: Integrated into all product pages
+- **Star Ratings**: 1-5 star rating system with modern UI
+- **User Features**:
+  - Write detailed reviews
+  - Submit star ratings
+  - Optional name and title fields
+- **Display Features**:
+  - Average rating calculation
+  - Total review count
+  - Individual review listings
+
+### 🔍 SEO Optimizer Plugin
+Automated search engine optimization including:
+
+- **Meta Tags**:
+  - Dynamic title and description
+  - Canonical URLs
+  - Robots directives
+- **Social Media**:
+  - Open Graph tags
+  - Twitter Cards
+- **Structured Data (JSON-LD)**:
+  - Organization
+  - Website
+  - Search functionality
+  - Breadcrumbs
+  - Product information
+  - AggregateRating
+- **Performance**:
+  - Sitemap generator (`sitemap.php`)
+  - `robots.txt` configuration
+  - Critical CSS loading
+  - Resource preloading and preconnecting
+
+### 📦 Products & Categories (JSON API)
+- `GET /api/products` - List all products
+- `GET /api/products/{slug}` - Get product by slug
+- `GET /api/categories` - List all categories
+- **Features**: Filtering, search, slugs, pricing, stock management, images
+
+### 🎯 SEA / Tracking Module
+- **Google Tag Manager** integration
+- **E-Commerce Events**:
+  - `view_item`
+  - `add_to_cart`
+  - `purchase`
+- **Campaign Templates**: Ready-to-use landing pages
+- **Product Tracking**: Tracking-enabled product detail pages
+
+### 🧪 Testing & QA Module
+
+#### Manual Testing Documentation
+- Comprehensive test plan
+- Smoke test suite
+- Regression test cases
+- Review-specific tests (`tc-reviews.md`)
+- Bug report templates
+
+#### Automated Testing (PHPUnit)
+- Unit tests
+- API integration tests
+- Plugin functionality tests
+- Regression tests for known bugs
+- Performance tests with time assertions
+- Smoke test suite
+- Code coverage reports (with Xdebug)
+- HTML testdox reports
+
+#### Performance Testing
+- API response time validation (<150-200ms)
+- Server-side rendering performance
+- Lighthouse frontend audits (Google Chrome)
 
-Ein vollständiges Full-Stack E-Commerce-System mit Plugins, SEO, Tracking, Reviews, Warenkorb & automatisierten Tests.
+---
 
-🧩 Mini E-Commerce Playground
+## 🏗️ Project Structure
 
-Ein voll funktionsfähiges E-Commerce-System, entwickelt als Portfolio-Projekt mit Fokus auf:
-
-Software-Architektur (Plugin-System)
-
-E-Commerce-Features (Cart, Reviews, Orders)
-
-SEO-Optimierung (JSON-LD, Sitemap, Robots, OG, Twitter Cards)
-
-SEA & Tracking (Google Tag Manager + Events)
-
-QA / Testing (Smoke Tests, Regression Tests, Automated PHPUnit Tests, Performance Tests)
-
-🚀 Features
-🛒 Shopping Cart Plugin
-
-Sidebar-Cart (slide-in)
-
-Add / Update / Remove items
-
-Persistenz per cart_items Tabelle (session-based)
-
-Checkout modal + Order creation
-
-Frontend dynamisch mit JavaScript
-
-Tested with PHPUnit
-
-⭐ ReviewStars Plugin
-
-Custom Review-System für jedes Produkt
-
-1–5 Sterne mit modernem UI
-
-Nutzer kann:
-
-Review schreiben
-
-Sterne bewerten
-
-Name & Titel optional
-
-Anzeige:
-
-Durchschnittsbewertung
-
-Anzahl Reviews
-
-Einzelne Bewertungen
-
-🔍 SEO Optimizer Plugin
-
-Automatisierte Suchmaschinenoptimierung:
-
-Meta Tags
-
-Title
-
-Description
-
-Canonical
-
-Robots
-
-Open Graph
-
-Twitter Cards
-
-Structured Data (JSON-LD)
-
-Organization
-
-Website Search
-
-Breadcrumbs
-
-Product
-
-AggregateRating
-
-Sitemap Generator (sitemap.php)
-
-Robots.txt
-
-Critical CSS + Preload + Preconnect
-
-📦 Produkte & Kategorien (JSON API)
-
-/api/products
-
-/api/products/{slug}
-
-/api/categories
-
-Filter, Suche, Slugs, Preise, Stock, Bilder
-
-🎯 SEA / Tracking Module
-
-Google Tag Manager Integration
-
-E-Commerce Tracking Events:
-
-view_item
-
-add_to_cart
-
-purchase
-
-Campaign Landing Page Templates
-
-Tracking-ready Product Detail Pages
-
-🧪 Testing & QA Module
-
-Komplette Teststrategie mit Dokumentation:
-
-✔ Manual Test Documentation
-
-Test Plan
-
-Smoke Test Suite
-
-Regression Tests
-
-Test Cases
-
-Review Tests (tc-reviews.md)
-
-Bug report templates
-
-✔ Automated Testing (PHPUnit)
-
-Unit Tests
-
-API Tests
-
-Plugin Tests
-
-Regression Test für Review-Bug
-
-Performance Tests (mit Time Assertions)
-
-Smoke Tests als Gruppe
-
-Coverage Reports (wenn Xdebug aktiviert)
-
-HTML Testdox Reports
-
-✔ Performance Testing
-
-API Response Time Checks (<150–200ms)
-
-Rendering Performance (Server)
-
-Lighthouse Frontend-Audit (Google Chrome)
-
-🏗 Projektstruktur
+```
 mini-ecommerce/
 │
-│
-│── │ ──── controllers/
-│   │   ├── ProductController.php
-│   │   ├── CategoryController.php
-│   │   └── CartController.php
-│   └── index.php
+├── controllers/
+│   ├── ProductController.php
+│   ├── CategoryController.php
+│   └── CartController.php
 │
 ├── plugins/
 │   ├── ShoppingCart/
@@ -212,143 +159,203 @@ mini-ecommerce/
 ├── phpunit.xml
 ├── sitemap.php
 ├── robots.txt
+├── composer.json
+├── index.php
 └── README.md
+```
 
-🔧 Installation
-1. Projekt lokal klonen
-git clone 
+---
+
+## 🔧 Installation
+
+### 1. Clone the Repository
+```bash
+git clone https://github.com/yourusername/mini-ecommerce.git
 cd mini-ecommerce
+```
 
-2. Composer installieren (falls nicht vorhanden)
+### 2. Install Composer
+If you don't have Composer installed:
+- Visit [https://getcomposer.org/download/](https://getcomposer.org/download/)
 
-https://getcomposer.org/download/
+### 3. Install Dependencies
+```bash
+# For XAMPP on Windows
+"C:\xampp\php\php.exe" composer.phar install
 
-3. Dependencies installieren
+# For standard PHP installations
+composer install
+```
 
-⚠ Wichtig: Dein PHP liegt in XAMPP
+### 4. Run Initial Tests
+```bash
+# For XAMPP on Windows
+"C:\xampp\php\php.exe" vendor\bin\phpunit
 
-& "C:\xampp\php\php.exe" composer.phar install
+# For standard PHP installations
+./vendor/bin/phpunit
+```
 
-4. PHPUnit testen
-& "C:\xampp\php\php.exe" vendor\bin\phpunit
+---
 
-🤖 Automated Testing
-✔ Alle Tests ausführen
-& "C:\xampp\php\php.exe" vendor\bin\phpunit
+## 🤖 Automated Testing
 
-✔ Nur Smoke Test Suite
+### Run All Tests
+```bash
+php vendor/bin/phpunit
+```
+
+### Run Specific Test Suites
+
+**Smoke Tests Only**:
+```bash
 php vendor/bin/phpunit --group smoke
+```
 
-✔ Regression Tests (z. B. Review-Bug)
+**Regression Tests**:
+```bash
 php vendor/bin/phpunit --group regression
+```
 
-✔ Performance Tests
+**Performance Tests**:
+```bash
 php vendor/bin/phpunit --group performance
+```
 
-✔ HTML Test Report generieren
+### Generate Test Reports
+
+**HTML Test Report**:
+```bash
 php vendor/bin/phpunit --testdox-html build/test-report.html
+```
 
-📝 Manuelles Testing
-🔥 Smoke Test Suite
-Test	Status	Beschreibung
-Startseite lädt	✅	CSS/JS ok
-Produktseite lädt	✅	Slug funktioniert
-Produkt kann in Warenkorb	✅	Cart Modal
-Checkout öffnet	✅	Modal sichtbar
-Reviews werden angezeigt	✅	Plugin lädt
-🐞 Regression Tests
-Beispiel: Doppelter Review-Bug
+**Code Coverage Report** (requires Xdebug):
+```bash
+php vendor/bin/phpunit --coverage-html build/coverage
+```
 
-Der Fehler wurde reproduziert, gefixt und automatisiert getestet.
+---
 
-Test-Datei:
+## 📝 Manual Testing
 
-tests/RegressionReviewBugTest.php
+### 🔥 Smoke Test Suite
 
-📋 Manuelle Testfälle
+| Test | Status | Description |
+|------|--------|-------------|
+| Homepage loads | ✅ | CSS/JS loading correctly |
+| Product page loads | ✅ | Slug routing functional |
+| Add to cart | ✅ | Cart modal appears |
+| Checkout opens | ✅ | Modal visible |
+| Reviews display | ✅ | Plugin loads correctly |
 
-Alle dokumentiert in:
+### 🐞 Regression Tests
 
-/docs/tests/tc-reviews.md
-/docs/tests/test-plan.md
-/docs/tests/testcases/
+**Example: Double Review Bug**
+- Issue was reproduced, fixed, and automated
+- Test file: `tests/RegressionReviewBugTest.php`
 
+### 📋 Manual Test Cases
+Documented in:
+- `/docs/tests/tc-reviews.md`
+- `/docs/tests/test-plan.md`
+- `/docs/tests/testcases/`
 
-Beispiele:
+**Sample Test Cases**:
+- `TC-REV-001` – Submit 5-star review
+- `TC-REV-004` – Verify average rating calculation
+- `TC-CART-003` – Update item quantity
+- `TC-PROD-006` – Validate price formatting
 
-TC-REV-001 – Review mit 5 Sternen absenden
+---
 
-TC-REV-004 – Durchschnitt korrekt berechnen
+## 📊 Performance Testing
 
-TC-CART-003 – Menge aktualisieren
+### PHPUnit Performance Tests
+Response time validation for API controllers:
+- `getProducts()` < 200ms
+- `getProduct(slug)` < 150ms
+- `Cart->addToCart()` < 150ms
 
-TC-PROD-006 – Preisformat testen
+### Lighthouse Audits
+Frontend performance measured via Chrome DevTools.
+Reports saved in: `/docs/performance/lighthouse/`
 
-📊 Performance Testing
-✔ PHPUnit Performance Tests
+---
 
-Messen Response-Zeiten der API-Kontroller:
+## 🔍 SEO Testing
 
-getProducts() < 200ms
+- **JSON-LD Validation**: Via Google Rich Results Tool
+- **Meta Tag Tests**: Automated validation
+- **Canonical Check**: Link integrity verification
+- **Sitemap/Robots Test**: Crawlability validation
+- **SEO Audit Report**: Available at `/seo/seo-audit.php`
 
-getProduct(slug) < 150ms
+---
 
-Cart->addToCart() < 150ms
+## 📈 SEA / Tracking
 
-usw.
+### Google Tag Manager Integration
+Injected in `<head>` section with DataLayer events:
 
-✔ Lighthouse Audit
+**Tracked Events**:
+- `view_item` - Product page views
+- `add_to_cart` - Cart additions
+- `begin_checkout` - Checkout initiation
+- `purchase` - Order completion
 
-Frontend Performance gemessen über Chrome DevTools
+**Configuration Files**:
+- `assets/js/gtm.js`
+- `views/product-detail.php`
+- `views/home.php`
 
-Berichte gespeichert unter:
+---
 
-/docs/performance/lighthouse/
+## 🎯 Use Cases
 
-🔍 SEO Testing
+This project demonstrates professional skills for roles such as:
 
-JSON-LD Validierung via Rich Result Tool
+- **Full-Stack Developer**
+- **Web Developer**
+- **QA/Testing Engineer**
+- **Automation Engineer**
+- **E-Commerce Developer**
+- **DevOps Engineer**
 
-Meta Tag Tests
+---
 
-Canonical Check
+## 🤝 Contributing
 
-Sitemap/Robots Test
+Contributions are welcome! Please feel free to submit a Pull Request.
 
-SEO Audit Report unter /seo/seo-audit.php
+1. Fork the project
+2. Create your feature branch (`git checkout -b feature/AmazingFeature`)
+3. Commit your changes (`git commit -m 'Add some AmazingFeature'`)
+4. Push to the branch (`git push origin feature/AmazingFeature`)
+5. Open a Pull Request
 
-📈 SEA / Tracking
+---
 
-Google Tag Manager injected in <head>
+## 📄 License
 
-DataLayer Events:
+This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
 
-view_item
+---
 
-add_to_cart
+## 📧 Contact
 
-begin_checkout
+Your Name - [@yourtwitter](https://twitter.com/yourtwitter)
 
-purchase
+Project Link: [https://github.com/yourusername/mini-ecommerce](https://github.com/yourusername/mini-ecommerce)
 
-Konfigurierbar über:
+---
 
-assets/js/gtm.js
-views/product-detail.php
-views/home.php
+## 🙏 Acknowledgments
 
-🏁 Fazit
+- Plugin architecture inspired by WordPress
+- Testing methodology following industry best practices
+- SEO implementation based on Google's guidelines
+- E-commerce tracking using Google Analytics 4 standards
 
-Dieses Projekt zeigt Full-Stack Entwicklung, Plugin-Architektur, SEO/SEA-Optimierung, Testing-Professionalität und CI-taugliche QA-Struktur.
+---
 
-Perfekt für professionelle Bewerbungen als:
-
-Full-Stack Developer
-
-Web Developer
-
-QA/Testing Engineer
-
-Automation Engineer
-
-E-Commerce Developer
+**⭐ If you find this project useful, please consider giving it a star!**
