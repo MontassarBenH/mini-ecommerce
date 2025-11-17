@@ -217,17 +217,21 @@
     background: rgba(0,0,0,0.65);
     display: flex;
     justify-content: center;
-    align-items: center;
+    align-items: flex-start; 
+    padding: 20px;
     z-index: 9999;
+    overflow-y: auto;   
 }
 
 .checkout-content {
     background: white;
     width: 500px;
-    max-width: 92%;
+    max-width: 100%;
+    max-height: 100vh;     
+    overflow-y: auto;       
     padding: 25px;
     border-radius: 10px;
-    animation: modalIn .3s ease forwards;
+    box-sizing: border-box;
 }
 
 @keyframes modalIn {
@@ -317,3 +321,12 @@
         right: 0;
     }
 }
+
+@media (max-width: 480px) {
+    .checkout-content {
+        width: 100%;
+        max-height: 100vh;
+        border-radius: 8px;
+    }
+}
+

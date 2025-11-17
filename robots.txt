@@ -1,0 +1,25 @@
+# robots.txt - Mini E-Commerce Playground
+
+# Allow all crawlers
+User-agent: *
+Allow: /
+
+# Disallow admin and sensitive areas
+Disallow: /admin/
+Disallow: /api/
+Disallow: /plugins/
+Disallow: /config.php
+Disallow: /test*.php
+
+# Allow specific crawlers more access
+User-agent: Googlebot
+Allow: /
+
+User-agent: Bingbot
+Allow: /
+
+# Sitemap location
+Sitemap: http://localhost/mini-ecommerce/sitemap.php
+
+# Crawl delay (optional)
+Crawl-delay: 1

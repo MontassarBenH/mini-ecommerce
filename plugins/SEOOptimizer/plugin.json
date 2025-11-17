@@ -1,0 +1,15 @@
+{
+  "name": "SEO Optimizer",
+  "version": "1.0.0",
+  "description": "SEO plugin for meta tags, structured data, sitemap generation and performance hints.",
+  "class": "SEOOptimizer",
+  "directory": "SEOOptimizer",
+  "enabled": true,
+  "author": "ben",
+  "features": [
+    "head_meta",
+    "head_structured_data",
+    "head_preload",
+    "sitemap_generator"
+  ]
+}

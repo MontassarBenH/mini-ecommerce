@@ -48,6 +48,12 @@ if ($segments[0] === 'api') {
                 echo $controller->getCategories();
             }
             break;
+
+        case 'cart':
+            // 🛒 Neue Route: /api/cart
+            $controller = new CartController();
+            echo $controller->handle();   // handle() gibt JSON zurück
+            break;
             
         default:
             http_response_code(404);

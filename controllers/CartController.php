@@ -1,130 +1,138 @@
 <?php
 // controllers/CartController.php
 
-require_once __DIR__ . '/../config.php';
-
-class CartController {
+class CartController
+{
+    /** @var ShoppingCart */
     private $cart;
-    
-    public function __construct() {
+
+    public function __construct()
+    {
+        // PluginManager ist bereits in config.php geladen
         $pluginManager = PluginManager::getInstance();
-        $cartPlugin = $pluginManager->getPlugin('ShoppingCart');
-        
-        if ($cartPlugin) {
-            $this->cart = $cartPlugin['instance'];
+        $pluginData    = $pluginManager->getPlugin('ShoppingCart');
+
+        if (!$pluginData || !isset($pluginData['instance']) || !$pluginData['instance'] instanceof ShoppingCart) {
+            // Kein Plugin geladen => später 500 zurückgeben
+            $this->cart = null;
         } else {
-            throw new Exception('Shopping Cart plugin not loaded');
+            $this->cart = $pluginData['instance'];
         }
     }
-    
-    /**
-     * Get cart items
-     */
-    public function getCart() {
-        $items = $this->cart->getCartItems();
-        $total = $this->cart->getCartTotal();
-        $count = $this->cart->getCartCount();
-        
-        return json_encode([
-            'success' => true,
-            'items' => $items,
-            'total' => $total,
-            'count' => $count
-        ]);
-    }
-    
-    /**
-     * Add item to cart
-     */
-    public function addToCart() {
-        $data = json_decode(file_get_contents('php://input'), true);
-        
-        if (!isset($data['product_id'])) {
-            http_response_code(400);
-            return json_encode(['success' => false, 'message' => 'Product ID required']);
+
+    public function handle()
+    {
+        if ($this->cart === null) {
+            http_response_code(500);
+            return json_encode([
+                'success' => false,
+                'message' => 'ShoppingCart plugin not available'
+            ]);
         }
-        
-        $quantity = $data['quantity'] ?? 1;
-        $result = $this->cart->addToCart($data['product_id'], $quantity);
-        
-        if (!$result['success']) {
-            http_response_code(400);
+
+        $method = $_SERVER['REQUEST_METHOD'];
+
+        // Body-Daten holen (JSON oder Form-POST)
+        $rawBody = file_get_contents('php://input');
+        $data    = json_decode($rawBody, true);
+        if (!is_array($data)) {
+            $data = $_POST;
         }
-        
-        return json_encode($result);
-    }
-    
-    /**
-     * Update cart item quantity
-     */
-    public function updateCart() {
-        $data = json_decode(file_get_contents('php://input'), true);
-        
-        if (!isset($data['product_id']) || !isset($data['quantity'])) {
-            http_response_code(400);
-            return json_encode(['success' => false, 'message' => 'Product ID and quantity required']);
-        }
-        
-        $result = $this->cart->updateQuantity($data['product_id'], $data['quantity']);
-        
-        if (!$result['success']) {
-            http_response_code(400);
-        }
-        
-        return json_encode($result);
-    }
-    
-    /**
-     * Remove item from cart
-     */
-    public function removeFromCart($productId) {
-        $result = $this->cart->removeFromCart($productId);
-        
-        if (!$result['success']) {
-            http_response_code(400);
-        }
-        
-        return json_encode($result);
-    }
-    
-    /**
-     * Clear cart
-     */
-    public function clearCart() {
-        $result = $this->cart->clearCart();
-        
-        if (!$result['success']) {
-            http_response_code(400);
-        }
-        
-        return json_encode($result);
-    }
-    
-    /**
-     * Create order (checkout)
-     */
-    public function checkout() {
-        $data = json_decode(file_get_contents('php://input'), true);
-        
-        // Validate required fields
-        $required = ['name', 'email', 'address'];
-        foreach ($required as $field) {
-            if (!isset($data[$field]) || empty($data[$field])) {
-                http_response_code(400);
-                return json_encode([
-                    'success' => false,
-                    'message' => ucfirst($field) . ' is required'
-                ]);
+
+        $action = $data['action'] ?? null;
+
+        try {
+            switch ($method) {
+                case 'GET':
+                    // 🔹 GET /api/cart  → gesamten Warenkorb laden
+                    $items = $this->cart->getCartItems();
+                    $total = $this->cart->getCartTotal();
+                    $count = $this->cart->getCartCount();
+
+                    return json_encode([
+                        'success' => true,
+                        'items'   => $items,
+                        'total'   => $total,
+                        'count'   => $count,
+                    ]);
+
+                case 'POST':
+                    // Standard: add to cart
+                    if ($action === null || $action === 'add') {
+                        $productId = isset($data['product_id'])
+                            ? (int)$data['product_id']
+                            : (isset($data['productId']) ? (int)$data['productId'] : 0);
+
+                        $quantity  = isset($data['quantity']) ? (int)$data['quantity'] : 1;
+
+                        if ($productId <= 0) {
+                            http_response_code(400);
+                            return json_encode(['success' => false, 'message' => 'Invalid product_id']);
+                        }
+
+                        $result = $this->cart->addToCart($productId, $quantity);
+                        return json_encode($result);
+                    }
+
+
+
+                    if ($action === 'update') {
+                        $productId = isset($data['product_id']) ? (int)$data['product_id'] : 0;
+                        $quantity  = isset($data['quantity']) ? (int)$data['quantity'] : 1;
+
+                        if ($productId <= 0) {
+                            http_response_code(400);
+                            return json_encode(['success' => false, 'message' => 'Invalid product_id']);
+                        }
+
+                        $result = $this->cart->updateQuantity($productId, $quantity);
+                        return json_encode($result);
+                    }
+
+                    if ($action === 'remove') {
+                        $productId = isset($data['product_id']) ? (int)$data['product_id'] : 0;
+
+                        if ($productId <= 0) {
+                            http_response_code(400);
+                            return json_encode(['success' => false, 'message' => 'Invalid product_id']);
+                        }
+
+                        $result = $this->cart->removeFromCart($productId);
+                        return json_encode($result);
+                    }
+
+                    if ($action === 'clear') {
+                        $result = $this->cart->clearCart();
+                        return json_encode($result);
+                    }
+
+                    if ($action === 'checkout') {
+                        // 🧾 Optional: Checkout verarbeiten (Cart->createOrder)
+                        $customerData = [
+                            'name'           => $data['name']          ?? '',
+                            'email'          => $data['email']         ?? '',
+                            'phone'          => $data['phone']         ?? '',
+                            'address'        => $data['address']       ?? '',
+                            'payment_method' => $data['payment_method'] ?? 'credit_card',
+                        ];
+                        $result = $this->cart->createOrder($customerData);
+                        return json_encode($result);
+                    }
+
+                    http_response_code(400);
+                    return json_encode(['success' => false, 'message' => 'Unknown action']);
+
+                default:
+                    http_response_code(405);
+                    return json_encode(['success' => false, 'message' => 'Method not allowed']);
             }
+        } catch (Throwable $e) {
+            http_response_code(500);
+            return json_encode([
+                'success' => false,
+                'message' => 'Cart error',
+                'error'   => $e->getMessage()
+            ]);
         }
-        
-        $result = $this->cart->createOrder($data);
-        
-        if (!$result['success']) {
-            http_response_code(400);
-        }
-        
-        return json_encode($result);
     }
 }
-?>

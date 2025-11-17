@@ -51,7 +51,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && $product) {
                     ':author'  => $author ?: null,
                 ]);
 
-                // 🎯 WICHTIG: Redirect nach erfolgreichem Submit (PRG-Pattern)
+                // 🎯 Redirect nach erfolgreichem Submit (PRG-Pattern)
                 header('Location: ' . BASE_URL . '/product/' . urlencode($product['slug']) . '?review_submitted=1');
                 exit;
             } catch (PDOException $e) {
@@ -93,11 +93,15 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && $product) {
     <link rel="stylesheet" href="<?php echo BASE_URL; ?>/assets/css/styles.css">
 
     <?php
-    // ✨ Plugin-CSS laden (ReviewStars + BestsellerBadge)
     echo $pluginManager->renderHook('head_css');
     ?>
 </head>
 <body>
+    <?php
+    // ✨ Scripts direkt nach <body> (z.B. cart.js vom ShoppingCart-Plugin)
+    echo $pluginManager->renderHook('after_body_open');
+    ?>
+
     <!-- Header -->
     <header class="header">
         <div class="container">
@@ -179,8 +183,17 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && $product) {
                         </div>
 
                         <div class="product-actions">
-                            <button class="btn-primary" id="add-to-cart" <?php echo $product['stock'] == 0 ? 'disabled' : ''; ?>>
-                                <?php echo $product['stock'] > 0 ? 'Add to Cart' : 'Out of Stock'; ?>
+                            <button
+                                class="btn-primary add-to-cart-btn"
+                                id="add-to-cart"
+                                <?php echo $product['stock'] == 0 ? 'disabled' : ''; ?>
+                                data-product-id="<?php echo (int)$product['id']; ?>"
+                                data-product-name="<?php echo htmlspecialchars($product['name'], ENT_QUOTES, 'UTF-8'); ?>"
+                                data-product-price="<?php echo number_format((float)$product['price'], 2, '.', ''); ?>"
+                                data-product-image="<?php echo htmlspecialchars($product['image_url'], ENT_QUOTES, 'UTF-8'); ?>"
+                                data-product-slug="<?php echo htmlspecialchars($product['slug'], ENT_QUOTES, 'UTF-8'); ?>"
+                            >
+                                <?php echo $product['stock'] > 0 ? '🛒 Add to Cart' : 'Out of Stock'; ?>
                             </button>
                         </div>
                     </div>
@@ -198,24 +211,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && $product) {
                 <div class="product-reviews product-reviews--fullwidth">
                     <?php echo $pluginManager->renderHook('product_detail_reviews', $product); ?>
                 </div>
-
-                <script>
-                    // Kleines Demo-Tracking (optional)
-                    const addToCartBtn = document.getElementById('add-to-cart');
-                    if (addToCartBtn && <?php echo (int)$product['stock']; ?> > 0) {
-                        addToCartBtn.addEventListener('click', () => {
-                            console.log('Event: click_add_to_cart', {
-                                product_id: <?php echo (int)$product['id']; ?>,
-                                product_name: '<?php echo addslashes($product['name']); ?>',
-                                price: '<?php echo $product['price']; ?>',
-                                currency: 'EUR'
-                            });
-                            alert('Product added to cart! (Demo only)');
-                        });
-                    }
-                </script>
             <?php endif; ?>
-
         </div>
     </main>
 
@@ -225,5 +221,9 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && $product) {
             <p>&copy; 2025 Mini E-Commerce Playground. Built for portfolio demonstration.</p>
         </div>
     </footer>
+
+    <?php
+    echo $pluginManager->renderHook('before_body_close');
+    ?>
 </body>
 </html>

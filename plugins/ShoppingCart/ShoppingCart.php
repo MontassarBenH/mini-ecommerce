@@ -77,35 +77,40 @@ class ShoppingCart extends BasePlugin {
     /**
      * Add item to cart
      */
-    public function addToCart($productId, $quantity = 1) {
-        // Check if product exists and has stock
-        $product = $this->getProduct($productId);
-        if (!$product || $product['stock'] < $quantity) {
-            return ['success' => false, 'message' => 'Product not available'];
-        }
-        
-        $sql = "INSERT INTO cart_items (session_id, product_id, quantity)
-                VALUES (:session_id, :product_id, :quantity)
-                ON DUPLICATE KEY UPDATE quantity = quantity + :quantity";
-        
-        try {
-            $stmt = $this->db->prepare($sql);
-            $stmt->execute([
-                ':session_id' => $this->sessionId,
-                ':product_id' => $productId,
-                ':quantity' => $quantity
-            ]);
-            
-            return [
-                'success' => true,
-                'message' => 'Product added to cart',
-                'cart_count' => $this->getCartCount()
-            ];
-        } catch (PDOException $e) {
-            error_log("Cart Error: " . $e->getMessage());
-            return ['success' => false, 'message' => 'Failed to add to cart'];
-        }
+public function addToCart($productId, $quantity = 1) {
+    // Check if product exists and has stock
+    $product = $this->getProduct($productId);
+    if (!$product || $product['stock'] < $quantity) {
+        return ['success' => false, 'message' => 'Product not available'];
     }
+
+    $sql = "INSERT INTO cart_items (session_id, product_id, quantity)
+            VALUES (:session_id, :product_id, :quantity)
+            ON DUPLICATE KEY UPDATE quantity = quantity + VALUES(quantity)";
+
+    try {
+        $stmt = $this->db->prepare($sql);
+        $stmt->execute([
+            ':session_id' => $this->sessionId,
+            ':product_id' => $productId,
+            ':quantity'   => $quantity
+        ]);
+
+        return [
+            'success'    => true,
+            'message'    => 'Product added to cart',
+            'cart_count' => $this->getCartCount()
+        ];
+    } catch (PDOException $e) {
+        error_log("Cart Error addToCart: " . $e->getMessage());
+        return [
+            'success' => false,
+            'message' => 'Failed to add to cart: ' . $e->getMessage()
+        ];
+    }
+}
+
+
     
     /**
      * Update cart item quantity
