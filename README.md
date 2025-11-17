@@ -2,9 +2,6 @@
 
 A complete full-stack e-commerce system with plugin architecture, SEO optimization, tracking integration, reviews, shopping cart, and comprehensive automated testing.
 
-[![PHP Version](https://img.shields.io/badge/PHP-%3E%3D7.4-blue)](https://php.net)
-[![PHPUnit](https://img.shields.io/badge/PHPUnit-9.x-green)](https://phpunit.de)
-[![License](https://img.shields.io/badge/license-MIT-orange)](LICENSE)
 
 ---
 
@@ -170,7 +167,7 @@ mini-ecommerce/
 
 ### 1. Clone the Repository
 ```bash
-git clone https://github.com/yourusername/mini-ecommerce.git
+git clone
 cd mini-ecommerce
 ```
 
@@ -337,15 +334,7 @@ Contributions are welcome! Please feel free to submit a Pull Request.
 
 ## 📄 License
 
-This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
-
----
-
-## 📧 Contact
-
-Your Name - [@yourtwitter](https://twitter.com/yourtwitter)
-
-Project Link: [https://github.com/yourusername/mini-ecommerce](https://github.com/yourusername/mini-ecommerce)
+This project is licensed under the Apache-2.0 license - see the [LICENSE](LICENSE) file for details.
 
 ---
 
