@@ -348,3 +348,36 @@ button:hover {
         min-width: 100%;
     }
 }
+
+.header-content {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 2rem;
+}
+
+.nav {
+    display: flex;
+    align-items: center;
+    gap: 1.5rem;
+}
+
+.nav-main .nav-link {
+    font-weight: 500;
+}
+
+.user-area {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    font-size: 0.9rem;
+}
+
+.user-greeting {
+    opacity: 0.8;
+    font-size: 0.9rem;
+}
+
+.nav-small {
+    font-size: 0.9rem;
+}

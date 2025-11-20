@@ -5,7 +5,12 @@ require_once 'config.php';
 require_once 'controllers/ProductController.php';
 require_once 'controllers/CategoryController.php';
 require_once 'controllers/CartController.php';
+require_once __DIR__ . '/controllers/AuthController.php';
+require_once __DIR__ . '/controllers/OrdersController.php';
 
+if (session_status() === PHP_SESSION_NONE) {
+    session_start();
+}
 
 // Simple router
 $request_uri = $_SERVER['REQUEST_URI'];
@@ -50,9 +55,18 @@ if ($segments[0] === 'api') {
             break;
 
         case 'cart':
-            // Neue Route: /api/cart
             $controller = new CartController();
             echo $controller->handle();  
+            break;
+
+        case 'auth':
+            $controller = new AuthController();
+            echo $controller->handle();
+            break;
+                
+        case 'orders':
+            $controller = new OrdersController();
+            echo $controller->handle();
             break;
             
         default:
@@ -63,36 +77,80 @@ if ($segments[0] === 'api') {
 }
 
 // Frontend routes
-switch($segments[0] ?? 'home') {
+switch ($segments[0] ?? 'home') {
     case 'home':
     case '':
-        include 'views/home.php';
+        include __DIR__ . '/views/home.php';
         break;
         
     case 'products':
-        include 'views/products.php';
+        include __DIR__ . '/views/products.php';
         break;
         
     case 'product':
         if (isset($segments[1])) {
             $_GET['slug'] = $segments[1];
-            include 'views/product-detail.php';
+            include __DIR__ . '/views/product-detail.php';
         } else {
-            header('Location: /products');
+            header('Location: ' . BASE_URL . '/products');
         }
         break;
         
     case 'category':
         if (isset($segments[1])) {
             $_GET['slug'] = $segments[1];
-            include 'views/category.php';
+            include __DIR__ . '/views/category.php';
         } else {
-            header('Location: /products');
+            header('Location: ' . BASE_URL . '/products');
         }
         break;
         
+        
+    case 'login':
+        if (file_exists(__DIR__ . '/views/login.php')) {
+            include __DIR__ . '/views/login.php';
+        } else {
+            echo "Error: login.php not found";
+        }
+        break;
+        
+    case 'register':
+        if (file_exists(__DIR__ . '/views/register.php')) {
+            include __DIR__ . '/views/register.php';
+        } else {
+            echo "Error: register.php not found";
+        }
+        break;
+        
+    case 'account':
+    case 'my-orders':
+        // Check if user is logged in
+        if (!isset($_SESSION['user_id'])) {
+            header('Location: ' . BASE_URL . '/login');
+            exit;
+        }
+        if (file_exists(__DIR__ . '/views/my-orders.php')) {
+            include __DIR__ . '/views/my-orders.php';
+        } else {
+            echo "Error: my-orders.php not found";
+        }
+        break;
+        
+    case 'checkout':
+        if (file_exists(__DIR__ . '/views/checkout.php')) {
+            include __DIR__ . '/views/checkout.php';
+        } else {
+            echo "Error: checkout.php not found";
+        }
+        break;
+
+    case 'logout':
+        session_unset();
+        session_destroy();
+        header('Location: ' . BASE_URL . '/');
+        exit;
+
     default:
         http_response_code(404);
-        include 'views/404.php';
+        include __DIR__ . '/views/404.php';
 }
-?>

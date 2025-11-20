@@ -115,20 +115,8 @@ $breadcrumbs = [
     ?>
 
     <!-- Header -->
-    <header class="header">
-        <div class="container">
-            <div class="header-content">
-                <a href="<?php echo BASE_URL; ?>/" class="logo">
-                    🧩 Mini E-Commerce
-                </a>
-                <nav class="nav">
-                    <a href="<?php echo BASE_URL; ?>/" class="active">Home</a>
-                    <a href="<?php echo BASE_URL; ?>/products">Products</a>
-                    <a href="#" id="cart-btn">Cart <span id="cart-count">(0)</span></a>
-                </nav>
-            </div>
-        </div>
-    </header>
+       <?php include __DIR__ . '/partials/header.php'; ?>
+
 
     <!-- Hero Section -->
     <section class="hero">
@@ -190,16 +178,7 @@ $breadcrumbs = [
     </main>
 
     <!-- Footer -->
-    <footer class="footer">
-        <div class="container">
-            <p>&copy; 2025 Mini E-Commerce Playground. Built for portfolio demonstration.</p>
-            <p style="margin-top: 0.5rem; font-size: 0.875rem;">
-                <a href="#about">About</a> | 
-                <a href="#contact">Contact</a> | 
-                <a href="#privacy">Privacy Policy</a>
-            </p>
-        </div>
-    </footer>
+   <?php include __DIR__ . '/partials/footer.php'; ?>
 
     <script>
         // Load categories

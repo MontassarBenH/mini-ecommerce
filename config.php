@@ -7,6 +7,10 @@ define('DB_NAME_TEST', 'mini_ecommerce_test');
 define('DB_USER', 'root');
 define('DB_PASS', '');
 
+if (session_status() === PHP_SESSION_NONE) {
+    session_start();
+}
+
 // Base URL configuration
 define('BASE_URL', 'http://localhost/mini-ecommerce');
 

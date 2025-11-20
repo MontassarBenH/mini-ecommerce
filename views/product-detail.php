@@ -143,20 +143,7 @@ if ($product) {
     ?>
 
     <!-- Header -->
-    <header class="header">
-        <div class="container">
-            <div class="header-content">
-                <a href="<?php echo BASE_URL; ?>/" class="logo">
-                    🧩 Mini E-Commerce
-                </a>
-                <nav class="nav">
-                    <a href="<?php echo BASE_URL; ?>/">Home</a>
-                    <a href="<?php echo BASE_URL; ?>/products">Products</a>
-                    <a href="#" id="cart-btn">Cart <span id="cart-count">(0)</span></a>
-                </nav>
-            </div>
-        </div>
-    </header>
+   <?php include __DIR__ . '/partials/header.php'; ?>
 
     <!-- Main Content -->
     <main class="main-content">
@@ -277,11 +264,7 @@ if ($product) {
     </main>
 
     <!-- Footer -->
-    <footer class="footer">
-        <div class="container">
-            <p>&copy; 2025 Mini E-Commerce Playground. Built for portfolio demonstration.</p>
-        </div>
-    </footer>
+    <?php include __DIR__ . '/partials/footer.php'; ?>
 
     <?php
     echo $pluginManager->renderHook('tracking_js');

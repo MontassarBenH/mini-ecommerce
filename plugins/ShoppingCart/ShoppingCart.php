@@ -225,36 +225,54 @@ public function addToCart($productId, $quantity = 1) {
     /**
      * Create order from cart
      */
-    public function createOrder($customerData) {
-        $items = $this->getCartItems();
+    function createOrder($customerData) {
+    $items = $this->getCartItems();
+    
+    if (empty($items)) {
+        return ['success' => false, 'message' => 'Cart is empty'];
+    }
+
+    $userId = isset($_SESSION['user_id']) ? (int)$_SESSION['user_id'] : null;
+    
+    try {
+        $this->db->beginTransaction();
         
-        if (empty($items)) {
-            return ['success' => false, 'message' => 'Cart is empty'];
-        }
+        $orderNumber = 'ORD-' . date('Ymd') . '-' . strtoupper(substr(uniqid(), -6));
+
+        // user_id ins Insert aufnehmen
+        $sql = "INSERT INTO orders (
+                    user_id,
+                    order_number,
+                    customer_name,
+                    customer_email,
+                    customer_phone,
+                    shipping_address,
+                    total_amount,
+                    payment_method
+                ) VALUES (
+                    :user_id,
+                    :order_number,
+                    :name,
+                    :email,
+                    :phone,
+                    :address,
+                    :total,
+                    :payment
+                )";
         
-        try {
-            $this->db->beginTransaction();
-            
-            // Generate order number
-            $orderNumber = 'ORD-' . date('Ymd') . '-' . strtoupper(substr(uniqid(), -6));
-            
-            // Create order
-            $sql = "INSERT INTO orders (order_number, customer_name, customer_email, 
-                    customer_phone, shipping_address, total_amount, payment_method)
-                    VALUES (:order_number, :name, :email, :phone, :address, :total, :payment)";
-            
-            $stmt = $this->db->prepare($sql);
-            $stmt->execute([
-                ':order_number' => $orderNumber,
-                ':name' => $customerData['name'],
-                ':email' => $customerData['email'],
-                ':phone' => $customerData['phone'] ?? '',
-                ':address' => $customerData['address'],
-                ':total' => $this->getCartTotal(),
-                ':payment' => $customerData['payment_method'] ?? 'credit_card'
-            ]);
-            
-            $orderId = $this->db->lastInsertId();
+        $stmt = $this->db->prepare($sql);
+        $stmt->execute([
+            ':user_id'      => $userId, // kann NULL sein, wenn Gast
+            ':order_number' => $orderNumber,
+            ':name'         => $customerData['name'],
+            ':email'        => $customerData['email'],
+            ':phone'        => $customerData['phone'] ?? '',
+            ':address'      => $customerData['address'],
+            ':total'        => $this->getCartTotal(),
+            ':payment'      => $customerData['payment_method'] ?? 'credit_card'
+        ]);
+
+        $orderId = $this->db->lastInsertId();
             
             // Create order items
             $sql = "INSERT INTO order_items (order_id, product_id, product_name, 

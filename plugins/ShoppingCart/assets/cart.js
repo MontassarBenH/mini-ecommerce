@@ -45,9 +45,14 @@ document.addEventListener('DOMContentLoaded', function () {
             const data = await res.json();
 
             if (!data.success) {
-                console.error('❌ Failed to load cart', data.message);
+                if (data.message === 'Cart is empty') {
+                    return;
+                }
+                alert(data.message || 'Failed to place order.');
                 return;
             }
+
+
 
             renderCartItems(data.items || []);
             updateCartSummary(data.total || 0, data.count || 0);
@@ -224,45 +229,51 @@ document.addEventListener('DOMContentLoaded', function () {
         checkoutModal.style.display = 'none';
     }
 
-    async function submitCheckoutForm(e) {
-        e.preventDefault();
-        if (!checkoutForm) return;
+   async function submitCheckoutForm(e) {
+    e.preventDefault();
+    if (!checkoutForm) return;
 
-        const formData = new FormData(checkoutForm);
-        const payload  = Object.fromEntries(formData.entries());
-        payload.action = 'checkout';
+    const formData = new FormData(checkoutForm);
+    const payload  = Object.fromEntries(formData.entries());
+    payload.action = 'checkout';
 
-        try {
-            const res  = await fetch(CART_API_URL, {
-                method: 'POST',
-                headers: {'Content-Type': 'application/json'},
-                body: JSON.stringify(payload)
-            });
-            const data = await res.json();
+    try {
+        const res  = await fetch(CART_API_URL, {
+            method: 'POST',
+            headers: {'Content-Type': 'application/json'},
+            body: JSON.stringify(payload)
+        });
+        const data = await res.json();
 
-            if (!data.success) {
-                alert(data.message || 'Failed to place order.');
+        if (!data.success) {
+            if (data.message === 'Cart is empty') {
                 return;
             }
-
-            // Erfolg → Success-Modal
-            closeCheckoutModal();
-            if (successModal) {
-                if (orderNumberBox && data.order_number) {
-                    orderNumberBox.textContent = data.order_number;
-                }
-                successModal.style.display = 'flex';
-            }
-
-            // Cart leeren / neu laden
-            loadCart();
-            checkoutForm.reset();
-
-        } catch (err) {
-            console.error('❌ checkout error', err);
-            alert('Failed to place order (network error).');
+            alert(data.message || 'Failed to place order.');
+            return;
         }
+
+
+        // Erfolg → Success-Modal
+        closeCheckoutModal();
+        if (successModal) {
+            if (orderNumberBox && data.order_number) {
+                orderNumberBox.textContent = data.order_number;
+            }
+            successModal.style.display = 'flex';
+        }
+
+        // Cart leeren / neu laden
+        loadCart();
+        checkoutForm.reset();
+
+    } catch (err) {
+        console.error('❌ checkout error', err);
+        alert('Failed to place order (network error).');
     }
+}
+
+
 
     function closeSuccessModal() {
         if (!successModal) return;
